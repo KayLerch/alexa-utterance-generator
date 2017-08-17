@@ -39,7 +39,7 @@ results in 18 variants (_help me get a taxi in Boston_, _help me book a room in 
 
 ### Value ranges
 
-The generator is also able to resolve numeric range defined in placeholders.
+The generator is also able to resolve numeric ranges defined in placeholders.
 
 ```xml
 help me {get|book} a {taxi|room|table} in {city} at {1-12}:00 {AM|PM}
