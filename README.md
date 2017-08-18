@@ -45,7 +45,15 @@ The generator is also able to resolve numeric ranges defined in placeholders.
 help me {get|book} a {taxi|room|table} in {city} at {1-12}:00 {AM|PM}
 ``` 
 
-results in 432 variants (_help me get a taxi in Boston at 1:00 AM_, _help me book a table in Bristol at 12:00 PM_ etc.)
+### Blank values
+
+It's worth mentioning that blank values in value placeholders are supported.
+
+```xml
+{|please} help me {get|book} a {taxi|room|table} in {city} at {1-12}:00 {AM|PM}
+``` 
+
+results in 864 variants (_help me get a taxi in Boston at 1:00 AM_, _please help me get a taxi in Boston at 1:00 AM_ etc.)
 
 ### Escape placeholders
 
@@ -53,7 +61,12 @@ Placeholders follow the same syntax as slots in regular utterances. You might wa
 generated utterances without having it resolved by this script. 
 
 ```xml
-help me {get|book} a {taxi|room|table} in {{city}} at {1-12}:00 {AM|PM}
+{|please} help me {get|book} a {taxi|room|table} in {{city}} at {1-12}:00 {AM|PM}
 ``` 
 
 returns utterances like "_help me get a taxi in {city} at 1:00 AM_".
+
+### Deduplication
+
+Don't care about duplicated utterances in your output. The generator will eliminate them in case
+you define overlapping patterns.

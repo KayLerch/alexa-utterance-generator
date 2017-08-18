@@ -1,4 +1,4 @@
 help me {get|book} a {taxi|room|table}
 help me {get|book} a {taxi|room|table} in {city}
-help me {get|book} a {taxi|room|table} in {city} at {1-12}:00 {AM|PM}
-help me {get|book} a {taxi|room|table} in {{city}} at {1-12}:00 {AM|PM}
+{|please} help me {get|book} a {taxi|room|table} in {city} at {1-12}:00 {AM|PM}
+{|please} help me {get|book} a {taxi|room|table} in {{city}} at {1-12}:00 {AM|PM}

@@ -34,10 +34,10 @@ public class UtteranceGenerator {
             // for any of the placeholder ...
             while (placeholdersInUtterance.find()) {
                 final String placeholderName = placeholdersInUtterance.group(1);
-                // generate unique placeholder
-                final String placeholderNameNew = "{" + UUID.randomUUID().toString() + "}";
-                placeholders.put(placeholderNameNew, placeholderName);
-                placeholdersInUtterance.appendReplacement(buffer, Matcher.quoteReplacement(placeholderNameNew));
+                // generate unique placeholder-key
+                final String placeholderKey = "{" + UUID.randomUUID().toString() + "}";
+                placeholders.put(placeholderKey, placeholderName);
+                placeholdersInUtterance.appendReplacement(buffer, Matcher.quoteReplacement(placeholderKey));
             }
             placeholdersInUtterance.appendTail(buffer);
 
@@ -49,7 +49,7 @@ public class UtteranceGenerator {
     private static void generatePermutations(final List<Pair<String, List<String>>> lists, final int depth, final String utterance)
     {
         if(depth == lists.size()) {
-            printOut(utterance);
+            printOut(utterance.trim().replace("  ", " "));
             return;
         }
 
@@ -62,11 +62,9 @@ public class UtteranceGenerator {
     }
 
     private static void printOut(final String utterance) {
-        final String normalizedUtterance = utterance.trim().replace("  ", " ");
-
-        if (!utterances.contains(normalizedUtterance)) {
-            utterances.add(normalizedUtterance);
-            System.out.println(normalizedUtterance);
+        if (!utterances.contains(utterance)) {
+            utterances.add(utterance);
+            System.out.println(utterance);
         }
     }
 
@@ -114,8 +112,6 @@ public class UtteranceGenerator {
 
     private static List<String> getList(final String fileName) {
         final List<String> lines = new ArrayList<>();
-
-        final ClassLoader classLoader = UtteranceGenerator.class.getClassLoader();
 
         Optional.ofNullable(UtteranceGenerator.class.getResource(fileName)).ifPresent(url -> {
             final File file = new File(url.getFile());
