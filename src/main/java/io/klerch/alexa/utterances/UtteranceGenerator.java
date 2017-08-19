@@ -23,6 +23,8 @@ public class UtteranceGenerator {
     public static void main(final String [] args) {
         // get file-key from console
         generateUtterances(Arrays.stream(args).findFirst().orElse(utteranceFileKey));
+
+        utterances.stream().sorted().forEach(System.out::println);
     }
 
     private static void generateUtterances(final String utteranceResourceId) {
@@ -49,7 +51,7 @@ public class UtteranceGenerator {
     private static void generatePermutations(final List<Pair<String, List<String>>> lists, final int depth, final String utterance)
     {
         if(depth == lists.size()) {
-            printOut(utterance.trim().replace("  ", " "));
+            printOut(utterance.trim().replaceAll("\\s+"," "));
             return;
         }
 
@@ -64,7 +66,7 @@ public class UtteranceGenerator {
     private static void printOut(final String utterance) {
         if (!utterances.contains(utterance)) {
             utterances.add(utterance);
-            System.out.println(utterance);
+            //System.out.println(utterance);
         }
     }
 
