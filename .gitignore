@@ -11,6 +11,7 @@ src/main/resources/placeholders/*
 src/main/resources/utterances/*
 !src/main/resources/placeholders/city.txt
 !src/main/resources/utterances/booking.txt
+!src/main/resources/output/1503485637126_booking.txt
 .idea
 *.iml
 /src/test

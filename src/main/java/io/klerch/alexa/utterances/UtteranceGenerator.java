@@ -1,6 +1,9 @@
 package io.klerch.alexa.utterances;
 
+import io.klerch.alexa.utterances.output.FileUtteranceWriter;
+import io.klerch.alexa.utterances.output.UtteranceWriter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -13,18 +16,25 @@ import java.util.regex.Pattern;
 
 public class UtteranceGenerator {
     // Set this variable to the name of the file with utterances you created in the utterances-folder!
-    private final static String utteranceFileKey = "booking";
+    private final static String utteranceFileKey = "horoscope";
 
     // stores the list of all generated utterances to avoid duplicates
-    private static List<String> utterances = new ArrayList<>();
+    private static Map<String, String> utterances = new HashMap<>();
     // stores the list of values contained in placeholders of utterances
     private static final Map<String, List<String>> placeholderValues = new HashMap<>();
+
+    // set true if the first word per line is the name of an intent. it will be ignored when looking for duplicates
+    private static final boolean FIRST_WORD_IS_INTENT_NAME = false;
+
+    // choose the output writer (defaults to file)
+    private static final UtteranceWriter utteranceWriter = new FileUtteranceWriter(utteranceFileKey);
 
     public static void main(final String [] args) {
         // get file-key from console
         generateUtterances(Arrays.stream(args).findFirst().orElse(utteranceFileKey));
 
-        utterances.stream().sorted().forEach(System.out::println);
+        utterances.values().stream().sorted(String::compareToIgnoreCase).forEach(utteranceWriter::write);
+        utteranceWriter.close();
     }
 
     private static void generateUtterances(final String utteranceResourceId) {
@@ -64,9 +74,15 @@ public class UtteranceGenerator {
     }
 
     private static void printOut(final String utterance) {
-        if (!utterances.contains(utterance)) {
-            utterances.add(utterance);
+        final String utteranceKey = (FIRST_WORD_IS_INTENT_NAME ? utterance.substring(utterance.indexOf(" ") + 1) : utterance).toLowerCase();
+        if (!utterances.containsKey(utteranceKey)) {
+            utterances.put(utteranceKey, utterance);
             //System.out.println(utterance);
+        } else {
+            final String intent = utterances.get(utteranceKey).split(" ")[0];
+            final String intentCurrent = utterance.split(" ")[0];
+            // duplicated utterances across different intents are not accepted and must be avoided
+            Validate.isTrue(!FIRST_WORD_IS_INTENT_NAME || StringUtils.equalsIgnoreCase(intent, intentCurrent), "The utterance '" + utteranceKey + "' of intent '" + intentCurrent + "' already exists for intent '" + intent + "'.");
         }
     }
 
