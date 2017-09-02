@@ -69,4 +69,5 @@ returns utterances like "_help me get a taxi in {city} at 1 AM_".
 ### Deduplication
 
 Don't care about duplicated utterances in your output. The generator will eliminate them in case
-you define overlapping patterns.
+you define overlapping grammar. By setting _FIRST_WORD_IS_INTENT_NAME_ in the _UtteranceGenerator_ to true,
+it will throw an exception in case you have overlapping grammar across two or more intents.

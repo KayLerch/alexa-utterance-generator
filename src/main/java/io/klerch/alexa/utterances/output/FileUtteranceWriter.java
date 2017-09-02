@@ -8,8 +8,9 @@ import java.util.Date;
 import java.util.Optional;
 
 public class FileUtteranceWriter implements UtteranceWriter {
-    private final BufferedWriter outputWriter;
-    private final FileOutputStream outputStream;
+    private final String filePath;
+    private BufferedWriter outputWriter;
+    private FileOutputStream outputStream;
     private Integer i = 0;
 
     public FileUtteranceWriter() {
@@ -17,8 +18,12 @@ public class FileUtteranceWriter implements UtteranceWriter {
     }
 
     public FileUtteranceWriter(final String fileName) {
-        final String filePath = "/" + new Date().getTime() + "_" + Optional.ofNullable(fileName).orElse("utterances") + ".txt";
-        final File file = new File(Paths.get("src/main/resources/output").toUri().getPath() + filePath);
+        this.filePath = "/" + new Date().getTime() + "_" + Optional.ofNullable(fileName).orElse("utterances") + ".txt";
+    }
+
+    @Override
+    public void beforeWrite() {
+        final File file = new File(Paths.get("src/main/resources/output").toUri().getPath() + this.filePath);
 
         if (!file.exists()) {
             try {
@@ -49,7 +54,7 @@ public class FileUtteranceWriter implements UtteranceWriter {
     }
 
     @Override
-    public void close() {
+    public void afterWrite() {
         try {
             this.outputWriter.close();
             this.outputStream.close();

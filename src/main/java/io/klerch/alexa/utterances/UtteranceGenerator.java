@@ -15,27 +15,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UtteranceGenerator {
-    // Set this variable to the name of the file with utterances you created in the utterances-folder!
-    private final static String utteranceFileKey = "horoscope";
+    // 1) Set the key of a file with utterances you created in the utterances-folder
+    private final static String utteranceFileKey = "booking"; // e.g. "booking" for using "/resources/output/utterances/booking.txt"
+    // 2) set true if the first word per line is the name of an intent. it will be considered when looking for duplicates
+    private static final boolean FIRST_WORD_IS_INTENT_NAME = false;
+    // 3) choose one of  the utterance writers to set the output strategy
+    private static final UtteranceWriter utteranceWriter = new FileUtteranceWriter(utteranceFileKey);
+    // 4) run and done
+    public static void main(final String [] args) {
+        generateUtterances(Arrays.stream(args).findFirst().orElse(utteranceFileKey));
+        utteranceWriter.beforeWrite();
+        try {
+            utterances.values().stream().sorted(String::compareToIgnoreCase).forEach(utteranceWriter::write);
+        } finally {
+            utteranceWriter.afterWrite();
+        }
+    }
 
     // stores the list of all generated utterances to avoid duplicates
     private static Map<String, String> utterances = new HashMap<>();
     // stores the list of values contained in placeholders of utterances
     private static final Map<String, List<String>> placeholderValues = new HashMap<>();
-
-    // set true if the first word per line is the name of an intent. it will be ignored when looking for duplicates
-    private static final boolean FIRST_WORD_IS_INTENT_NAME = false;
-
-    // choose the output writer (defaults to file)
-    private static final UtteranceWriter utteranceWriter = new FileUtteranceWriter(utteranceFileKey);
-
-    public static void main(final String [] args) {
-        // get file-key from console
-        generateUtterances(Arrays.stream(args).findFirst().orElse(utteranceFileKey));
-
-        utterances.values().stream().sorted(String::compareToIgnoreCase).forEach(utteranceWriter::write);
-        utteranceWriter.close();
-    }
 
     private static void generateUtterances(final String utteranceResourceId) {
         getUtteranceList(utteranceResourceId).forEach(utterance -> {
@@ -61,7 +61,7 @@ public class UtteranceGenerator {
     private static void generatePermutations(final List<Pair<String, List<String>>> lists, final int depth, final String utterance)
     {
         if(depth == lists.size()) {
-            printOut(utterance.trim().replaceAll("\\s+"," "));
+            store(utterance.trim().replaceAll("\\s+"," "));
             return;
         }
 
@@ -73,7 +73,7 @@ public class UtteranceGenerator {
         }
     }
 
-    private static void printOut(final String utterance) {
+    private static void store(final String utterance) {
         final String utteranceKey = (FIRST_WORD_IS_INTENT_NAME ? utterance.substring(utterance.indexOf(" ") + 1) : utterance).toLowerCase();
         if (!utterances.containsKey(utteranceKey)) {
             utterances.put(utteranceKey, utterance);
