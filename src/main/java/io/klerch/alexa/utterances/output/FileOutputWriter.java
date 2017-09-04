@@ -1,5 +1,6 @@
 package io.klerch.alexa.utterances.output;
 
+import io.klerch.alexa.utterances.format.Formatter;
 import org.apache.commons.lang3.Validate;
 
 import java.io.*;
@@ -7,23 +8,25 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Optional;
 
-public class FileUtteranceWriter implements UtteranceWriter {
-    private final String filePath;
+public class FileOutputWriter extends AbstractOutputWriter {
+    private final String fileName;
     private BufferedWriter outputWriter;
     private FileOutputStream outputStream;
-    private Integer i = 0;
 
-    public FileUtteranceWriter() {
+    public FileOutputWriter() {
         this(null);
     }
 
-    public FileUtteranceWriter(final String fileName) {
-        this.filePath = "/" + new Date().getTime() + "_" + Optional.ofNullable(fileName).orElse("utterances") + ".txt";
+    public FileOutputWriter(final String fileName) {
+        this.fileName = fileName;
     }
 
     @Override
-    public void beforeWrite() {
-        final File file = new File(Paths.get("src/main/resources/output").toUri().getPath() + this.filePath);
+    public void beforeWrite(final Formatter formatter) {
+        super.beforeWrite(formatter);
+
+        final String filePath = "/" + new Date().getTime() + "_" + Optional.ofNullable(fileName).orElse("utterances") + "." + formatter.getFormat();
+        final File file = new File(Paths.get("src/main/resources/output").toUri().getPath() + filePath);
 
         if (!file.exists()) {
             try {
@@ -44,23 +47,14 @@ public class FileUtteranceWriter implements UtteranceWriter {
     }
 
     @Override
-    public void write(final String utterance) {
+    public void print() {
         try {
-            outputWriter.write((i > 0 ? "\n" : "") + utterance);
-            i += 1;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void afterWrite() {
-        try {
+            outputWriter.write(this.formatter.generateSchema());
             this.outputWriter.close();
             this.outputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Generated " + i + " utterances.");
+        System.out.println("Generated " + this.numOfSamples + " utterances.");
     }
 }

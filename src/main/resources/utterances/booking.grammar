@@ -1,0 +1,6 @@
+AMAZON.HelpIntent {|I} need {|your} {help|support}
+AMAZON.CancelIntent
+AMAZON.StopIntent
+BookingIntent {|please} {bookingAction} {|me} a {{bookingType}} at {{AMAZON.DATE}}
+BookingIntent {|please} {bookingAction} {|me} a {{bookingType}} in {{AMAZON.US_CITY}}
+FlightBooking {|please} {bookingAction} {|me} a flight from {{AMAZON.US_CITY}} to {{AMAZON.US_CITY}}
