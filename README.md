@@ -106,13 +106,13 @@ BookingIntent {{get|book|order}} a {{bookingType}}
 
 ### Leverage synonyms in slots
 
-Synonyms for slots were introduced by Amazon most recently. It lets you set a set of synonyms all resolving to one
+Synonyms for slots were introduced by Amazon most recently. It lets you create a set of synonyms all resolving to one
 slot value. This reduces lots of complexity in your backend as you are released from handling a bunch of slot values all
-meaning the same to your code (i.e. taxi, cab, car, ride -> car).
+meaning the same to your business logic (i.e. taxi, cab, car, ride -> car).
 
-To leverage synonyms with that tool you simply apply the same syntax of placeholders from the grammar in your
-slot-values-files. The tool than auto-populates all the values it finds in one line as synonyms to a new custom slot-type
-and uses the first value per line as the value they resolve to.
+To leverage synonyms with this tool you simply apply the same syntax of placeholders from the grammar in your
+slot-values-files. The tool then auto-populates all the values it finds in one line as synonyms to a new custom slot-type
+and uses the first value per line as the value the synonyms resolve to.
 
 Assume you have values named _bookingType.values_ file of the following:
 ```xml
