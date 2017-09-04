@@ -101,7 +101,7 @@ Just add those intents with their exact name (see developer docs) to the grammar
 AMAZON.HelpIntent 
 AMAZON.CancelIntent Get me out of here
 AMAZON.StopIntent 
-BookingIntent {{get|book|order}} a {{bookingType}}
+BookingIntent {get|book|order} a {{bookingType}}
 ```
 
 ### Leverage synonyms in slots
