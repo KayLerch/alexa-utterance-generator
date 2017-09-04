@@ -1,9 +1,9 @@
 package io.klerch.alexa.utterances;
 
-import io.klerch.alexa.utterances.format.UtteranceListFormatter;
 import io.klerch.alexa.utterances.output.FileOutputWriter;
 import io.klerch.alexa.utterances.output.OutputWriter;
 import io.klerch.alexa.utterances.format.InteractionModelFormatter;
+import io.klerch.alexa.utterances.format.UtteranceListFormatter;
 import io.klerch.alexa.utterances.format.Formatter;
 import io.klerch.alexa.utterances.util.Resolver;
 import io.klerch.alexa.utterances.util.ResourceReader;
@@ -20,9 +20,9 @@ public class UtteranceGenerator {
     // 1) Set the key of a file with utterances you created in the utterances-folder
     private final static String utteranceFileKey = "booking"; // e.g. "booking" for using "/resources/output/utterances/booking.grammar"
     // 2) choose one of  the output writers
-    private static final OutputWriter OUTPUT_WRITER = new FileOutputWriter(utteranceFileKey);
+    private static final OutputWriter OUTPUT_WRITER = new FileOutputWriter(utteranceFileKey); // = new ConsoleOutputWriter();
     // 3) choose formatter
-    private static final Formatter FORMATTER = new UtteranceListFormatter();
+    private static final Formatter FORMATTER = new InteractionModelFormatter(); // = new UtteranceListFormatter();
     // 4) run and done
     public static void main(final String [] args) {
         generateUtterances(Arrays.stream(args).findFirst().orElse(utteranceFileKey));
@@ -81,7 +81,6 @@ public class UtteranceGenerator {
         final String utteranceKey = (FIRST_WORD_IS_INTENT_NAME ? utterance.substring(utterance.indexOf(" ") + 1) : utterance).toLowerCase();
         if (!utterances.containsKey(utteranceKey)) {
             utterances.put(utteranceKey, utterance);
-            //System.out.println(utterance);
         } else {
             final String intent = utterances.get(utteranceKey).split(" ")[0];
             final String intentCurrent = utterance.split(" ")[0];
