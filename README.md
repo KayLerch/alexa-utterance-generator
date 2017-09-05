@@ -180,7 +180,7 @@ and a grammar-file like the above you end up with the following interaction-mode
 
 ### Use a slot in one sample utterance multiple times
 
-Sounds obvious, and of course is also supported, the use of one and the same slot within the same
+Sounds obvious, and of course is also supported, the use of one and the same slot within one
 sample utterance. The tool will just take that and generates all permutations - or in case it is escaped
 from resolution - will ensure unique slot-names in your interaction model (this actually is a requirement for skill in certification) 
 
