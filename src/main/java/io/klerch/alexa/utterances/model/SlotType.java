@@ -7,6 +7,7 @@ import io.klerch.alexa.utterances.util.ResourceReader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @JsonInclude
 public class SlotType {
@@ -40,8 +41,8 @@ public class SlotType {
         private SlotName name;
 
         public SlotValue(final String value) {
-            this.id = null;
             this.name = new SlotName(value);
+            this.id = name.synonyms.isEmpty() ? null : name.value;
         }
 
         public String getId() {
