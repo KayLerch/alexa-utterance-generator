@@ -7,7 +7,6 @@ import io.klerch.alexa.utterances.util.ResourceReader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @JsonInclude
 public class SlotType {

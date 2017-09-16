@@ -49,7 +49,7 @@ This example has the same effect as the above.
 
 #### Escape slots to prevent auto-resolution
 
-For now, we only used the slots in our grammar as a convenient option to reduce the number of sample utterances 
+By now, we only used the slots in our grammar as a convenient option to reduce the number of sample utterances 
 to define at design-time. Of course, you'd like to keep some of the slots in the resulting set of utterances as you
 want to catch they values at runtime and process them in your skill-code. Escape from resoltuons with the following:
 
@@ -57,7 +57,7 @@ want to catch they values at runtime and process them in your skill-code. Escape
 BookingIntent {|please} help me {get|book|order} a {{bookingType}} for {1-12} people
 ```
 
-results in 2 * 3 * 3 = 18 sample utterances like _BookingIntent help me order a {bookingType} for 3 people_.
+results in 2 * 3 * 1 * 12 = 72 sample utterances (_BookingIntent help me order a {bookingType} for 3 people_ etc.).
 
 ### 3) Choose an output strategy
 
