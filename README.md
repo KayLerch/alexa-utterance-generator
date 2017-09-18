@@ -150,19 +150,19 @@ and a grammar-file like the above you end up with the following interaction-mode
   "types" : [ {
     "name" : "bookingType",
     "values" : [ {
-      "id" : null,
+      "id" : "car",
       "name" : {
         "value" : "car",
         "synonyms" : [ "ride", "taxi", "cab" ]
       }
     }, {
-      "id" : null,
+      "id" : "hotel",
       "name" : {
         "value" : "hotel",
         "synonyms" : [ "room" ]
       }
     }, {
-      "id" : null,
+      "id" : "table",
       "name" : {
         "value" : "table",
         "synonyms" : [ "restaurant", "dinner" ]
