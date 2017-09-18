@@ -22,7 +22,7 @@ public class UtteranceGenerator {
     // 2) choose one of  the output writers
     private static final OutputWriter OUTPUT_WRITER = new FileOutputWriter(utteranceFileKey); // = new ConsoleOutputWriter();
     // 3) choose formatter
-    private static final Formatter FORMATTER = new InteractionModelFormatter(); // = new UtteranceListFormatter();
+    private static final Formatter FORMATTER = new UtteranceListFormatter(); // = new UtteranceListFormatter();
     // 4) run and done
     public static void main(final String [] args) {
         generateUtterances(Arrays.stream(args).findFirst().orElse(utteranceFileKey));

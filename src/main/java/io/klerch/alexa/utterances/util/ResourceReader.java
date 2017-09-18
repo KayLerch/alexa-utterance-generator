@@ -37,6 +37,8 @@ public class ResourceReader {
         });
         // eliminate empty lines
         lines.removeIf(StringUtils::isBlank);
+        // eliminate commentary
+        lines.removeIf(line -> line.startsWith("//"));
         return lines;
     }
 }
