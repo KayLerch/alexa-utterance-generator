@@ -64,6 +64,5 @@ public class Intent {
             if (StringUtils.isNotBlank(sampleUtterance)) {
                 samples.add(sampleUtterance);
             }
-
     }
 }

@@ -1,10 +1,11 @@
 package io.klerch.alexa.utterances;
 
+import io.klerch.alexa.utterances.format.*;
+import io.klerch.alexa.utterances.format.Formatter;
+import io.klerch.alexa.utterances.model.LanguageModel;
+import io.klerch.alexa.utterances.output.ConsoleOutputWriter;
 import io.klerch.alexa.utterances.output.FileOutputWriter;
 import io.klerch.alexa.utterances.output.OutputWriter;
-import io.klerch.alexa.utterances.format.InteractionModelFormatter;
-import io.klerch.alexa.utterances.format.UtteranceListFormatter;
-import io.klerch.alexa.utterances.format.Formatter;
 import io.klerch.alexa.utterances.util.Resolver;
 import io.klerch.alexa.utterances.util.ResourceReader;
 import org.apache.commons.lang3.StringUtils;
@@ -19,11 +20,21 @@ import java.util.regex.Pattern;
 public class UtteranceGenerator {
     // 1) Set the key of a file with utterances you created in the utterances-folder
     private final static String utteranceFileKey = "booking"; // e.g. "booking" for using "/resources/output/utterances/booking.grammar"
+
     // 2) choose one of  the output writers
-    private static final OutputWriter OUTPUT_WRITER = new FileOutputWriter(utteranceFileKey); // = new ConsoleOutputWriter();
+    private static final OutputWriter OUTPUT_WRITER = new FileOutputWriter(utteranceFileKey);
+    //private static final OutputWriter OUTPUT_WRITER = new ConsoleOutputWriter();
+
     // 3) choose formatter
-    private static final Formatter FORMATTER = new UtteranceListFormatter(); // = new UtteranceListFormatter();
-    // 4) run and done
+    private static final Formatter FORMATTER = new SMAPIFormatter("my invocation name");
+    //private static final Formatter FORMATTER = new SkillBuilderFormatter();
+    //private static final Formatter FORMATTER = new UtteranceListFormatter();
+    //private static final Formatter FORMATTER = new WeightedSegmentsFormatter(1); // use booking2 as utteranceFileKey for an example
+
+    // 4) set true if the first word per line is the name of an intent. it will be considered when looking for duplicates
+    private static final boolean FIRST_WORD_IS_INTENT_NAME = true;
+
+    // 5) run and done
     public static void main(final String [] args) {
         generateUtterances(Arrays.stream(args).findFirst().orElse(utteranceFileKey));
         OUTPUT_WRITER.beforeWrite(FORMATTER);
@@ -38,8 +49,6 @@ public class UtteranceGenerator {
     private static Map<String, String> utterances = new HashMap<>();
     // stores the list of values contained in slots of utterances
     private static final Map<String, List<String>> placeholderValues = new HashMap<>();
-    // set true if the first word per line is the name of an intent. it will be considered when looking for duplicates
-    private static final boolean FIRST_WORD_IS_INTENT_NAME = true;
 
     private static void generateUtterances(final String utteranceResourceId) {
         ResourceReader.getUtteranceList(utteranceResourceId).forEach(utterance -> {

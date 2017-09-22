@@ -2,7 +2,7 @@ package io.klerch.alexa.utterances.format;
 
 public class UtteranceListFormatter implements Formatter {
     private StringBuilder sb;
-    private int numOfSamples;
+    private int numOfSamples = 0;
 
     @Override
     public void before() {
@@ -10,8 +10,9 @@ public class UtteranceListFormatter implements Formatter {
     }
 
     @Override
-    public void write(final String sample) {
+    public boolean write(final String sample) {
         sb.append(numOfSamples++ > 0 ? "\n" : "").append(sample);
+        return true;
     }
 
     @Override

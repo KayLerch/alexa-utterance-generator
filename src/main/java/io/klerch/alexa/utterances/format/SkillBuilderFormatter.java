@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.klerch.alexa.utterances.model.InteractionModel;
 
-public class InteractionModelFormatter implements Formatter {
+public class SkillBuilderFormatter implements Formatter {
     private InteractionModel model;
 
     @Override
@@ -14,8 +14,9 @@ public class InteractionModelFormatter implements Formatter {
     }
 
     @Override
-    public void write(final String sample) {
+    public boolean write(final String sample) {
         model.addSample(sample);
+        return true;
     }
 
     @Override

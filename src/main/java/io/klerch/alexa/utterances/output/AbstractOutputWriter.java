@@ -16,8 +16,9 @@ abstract class AbstractOutputWriter implements OutputWriter {
     @Override
     public void write(String utterance) {
         // let formatter write the sample
-        this.formatter.write(utterance);
-        numOfSamples++;
+        if (this.formatter.write(utterance)) {
+            numOfSamples++;
+        }
     }
 
     @Override

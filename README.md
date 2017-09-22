@@ -1,7 +1,7 @@
 # Alexa Utterance and Schema Generator
 Use this tool if you'd like to generate hundreds and thousands of variant utterances
 for your Alexa skills. The tool spits out the list of utterances or a full-fledged interaction
-model you can drag and drop right into Skill-Builder in the Amazon developer console.
+model you can drag and drop right into Skill-Builder in the Amazon developer console or upload via SMAPI.
 
 ## Benefits
 * Maintain all assets of your skill interaction model in human-readable files in your sources
@@ -67,7 +67,8 @@ or _FileOutputWriter_ (writes to a new file it stores in the _/src/main/resource
 ### 4) Choose a formatter
 
 Go to the _UtteranceGenerator_ entry class and set the according _FORMATTER_ to either _UtteranceListFormatter_ (prints results as a string list)
-or _InteractionModelFormatter_ (generates a full interaction model you can drag / paste in the Skill-Builder code-section).
+or _SkillBuilderFormatter_ (generates a full interaction model you can drag / paste in the Skill-Builder code-section).
+You can also choose _SMAPIFormatter_ and give it an invocation name to generate SMAPI-compliant schema you can upload over the CLI.
 
 When you escaped the slot from resolution (see above) but still have a values-file in place, the formatter uses this
 file to populate the contained slot-values to a new custom slot-type in the schema. That being said, you can even make use
@@ -80,7 +81,7 @@ BookingIntent {|please} help me {get|book|order} a {{bookingType}} for {1-12} pe
 ### 5) Run and done
 
 Run the _UtteranceGenerator_ from your commandline and watch out for a new file created in the _/src/main/resources/output_ folder.
-If you decided for the _InteractionModelFormatter_ take that json-file and paste / drag it to the code-section in the Skill-Builder. Done!
+If you decided for the _SkillBuilderFormatter_ take that json-file and paste / drag it to the code-section in the Skill-Builder. Done!
 
 ## Advanced
 
