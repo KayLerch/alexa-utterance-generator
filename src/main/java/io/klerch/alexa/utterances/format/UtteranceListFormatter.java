@@ -1,5 +1,7 @@
 package io.klerch.alexa.utterances.format;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class UtteranceListFormatter implements Formatter {
     private StringBuilder sb;
     private int numOfSamples = 0;
@@ -11,8 +13,11 @@ public class UtteranceListFormatter implements Formatter {
 
     @Override
     public boolean write(final String sample) {
-        sb.append(numOfSamples++ > 0 ? "\n" : "").append(sample);
-        return true;
+        if (!StringUtils.startsWithIgnoreCase(sample, "AMAZON.") || sample.split(" ").length > 1) {
+            sb.append(numOfSamples++ > 0 ? "\n" : "").append(sample);
+            return true;
+        }
+        return false;
     }
 
     @Override

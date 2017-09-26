@@ -22,11 +22,15 @@ Start writing down sample utterances all starting with the intent-name they shou
 doing this in the developer console is that you make use of grammar-like syntax to provide more variety.
 
 ```xml
-BookingIntent {|please} help me {get|book|order} a {taxi|room|table} for {1-12} people
+BookingIntent: {|please} help me {get|book|order} a {taxi|room|table} for {1-12} people
 ```
 
 The tool will start generating permutations i.e. _BookingIntent help me get a taxi for 2 people_ or _BookingIntent please help me book a room for 4 people_.
 The above example results in 2 * 3 * 3 * 12 = 216 sample utterances.
+
+If you're separating the first string with a colon from the rest of the line, the tool treats it 
+as an intent-name. You don't have to prepend it on every line. Following lines are applied to the
+last defined intent-name. 
 
 ### 2) Define your slot value files and refer to them in your grammar
 
@@ -42,7 +46,7 @@ table
 and refer to it in your grammar with the file-key.
 
 ```xml
-BookingIntent {|please} help me {get|book|order} a {bookingType} for {1-12} people
+BookingIntent: {|please} help me {get|book|order} a {bookingType} for {1-12} people
 ```
 
 This example has the same effect as the above. 
@@ -54,7 +58,7 @@ to define at design-time. Of course, you'd like to keep some of the slots in the
 want to catch they values at runtime and process them in your skill-code. Escape from resoltuons with the following:
 
 ```xml
-BookingIntent {|please} help me {get|book|order} a {{bookingType}} for {1-12} people
+BookingIntent: {|please} help me {get|book|order} a {{bookingType}} for {1-12} people
 ```
 
 results in 2 * 3 * 1 * 12 = 72 sample utterances (_BookingIntent help me order a {bookingType} for 3 people_ etc.).
@@ -75,7 +79,7 @@ file to populate the contained slot-values to a new custom slot-type in the sche
 of all the builtin-slot-types provided by Amazon in your grammar.
 
 ```xml
-BookingIntent {|please} help me {get|book|order} a {{bookingType}} for {1-12} people in {{AMAZON.US_CITY}} at {{AMAZON.DATE}}
+BookingIntent: {|please} help me {get|book|order} a {{bookingType}} for {1-12} people in {{AMAZON.US_CITY}} at {{AMAZON.DATE}}
 ```
 
 ### 5) Run and done
@@ -90,7 +94,7 @@ If you decided for the _SkillBuilderFormatter_ take that json-file and paste / d
 This is more of a side-note as you don't have to set up anything to let the following happen:
 When defining sample utterances in grammar-style, you likely gonna create overlapping utterances that
 you'd like to avoid. The tool will automatically eliminate them. More than that, it throws an error
-if those overlaps occurs across multiple intents (this is not allowed in skills during certification).
+if those overlaps occurs across multiple intents (this is not allowed for skills in certification).
 The same applies for slots and their synonyms.
 
 ### Integrate and extend builtin-intents of Amazon
@@ -99,10 +103,10 @@ If you'd like to add the builtin-intents you don't have to (but still can) provi
 Just add those intents with their exact name (see developer docs) to the grammar-file without giving it a sample utterance.
 
 ```xml
-AMAZON.HelpIntent 
-AMAZON.CancelIntent Get me out of here
-AMAZON.StopIntent 
-BookingIntent {get|book|order} a {{bookingType}}
+AMAZON.HelpIntent:
+AMAZON.CancelIntent: Get me out of here
+AMAZON.StopIntent: 
+BookingIntent: {get|book|order} a {{bookingType}}
 ```
 
 ### Leverage synonyms in slots

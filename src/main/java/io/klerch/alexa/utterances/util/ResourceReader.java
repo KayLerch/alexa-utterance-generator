@@ -20,7 +20,7 @@ public class ResourceReader {
         return getList(String.format("/utterances/%s.grammar", utteranceResource));
     }
 
-    public static List<String> getList(final String fileName) {
+    private static List<String> getList(final String fileName) {
         final List<String> lines = new ArrayList<>();
 
         Optional.ofNullable(UtteranceGenerator.class.getResource(fileName)).ifPresent(url -> {

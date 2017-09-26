@@ -18,7 +18,7 @@ public class FileOutputWriter extends AbstractOutputWriter {
     }
 
     public FileOutputWriter(final String fileName) {
-        this.fileName = fileName;
+        this.fileName = fileName.replace("/", "_");
     }
 
     @Override

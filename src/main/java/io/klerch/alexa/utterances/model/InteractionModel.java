@@ -1,5 +1,6 @@
 package io.klerch.alexa.utterances.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,8 @@ import java.util.regex.Pattern;
 
 @JsonInclude
 public class InteractionModel {
+    @JsonIgnore
+    private static String DEFAULT_INTENT_NAME = "MyIntent";
     @JsonProperty
     private final List<Intent> intents = new ArrayList<>();
     @JsonProperty
@@ -19,8 +22,11 @@ public class InteractionModel {
 
     public void addSample(final String sample) {
         final String[] words = sample.split(" ");
-        final String intentName = words[0];
+        final String intentName = words.length < 1 || StringUtils.isBlank(words[0]) ? DEFAULT_INTENT_NAME : words[0];
         final String sampleUtterance = words.length > 1 ? sample.substring(sample.indexOf(" ") + 1).trim() : "";
+
+        // skip blank utterances except for builtin-intents that can exist without samples
+        if (StringUtils.isBlank(sampleUtterance) && !StringUtils.startsWithIgnoreCase(intentName, "AMAZON.")) return;
 
         final Optional<Intent> intent = intents.stream().filter(i -> i.getName().equals(intentName)).findFirst();
         if (intent.isPresent()) {
