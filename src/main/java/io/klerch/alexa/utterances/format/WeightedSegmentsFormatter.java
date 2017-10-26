@@ -1,5 +1,9 @@
 package io.klerch.alexa.utterances.format;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -7,24 +11,39 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WeightedSegmentsFormatter implements Formatter {
-    private final static String DEFAULT_SEPARATOR = ";";
-    private final int weight;
-    private final String valueSeparator;
-    private final boolean prependPriority;
+    private int weight;
+    private String valueSeparator = ";";
+    private boolean prependPriority = false;
     private final List<String> samples = new ArrayList<>();
 
+    public WeightedSegmentsFormatter(final String[] args) {
+        if (args != null) {
+            prependPriority = ArrayUtils.contains(args, "-pp") || ArrayUtils.contains(args, "-prependPriority");
+
+            int index1 = ArrayUtils.indexOf(args, "-weight");
+            if (index1 < args.length - 1) {
+                final String weightString = args[index1 + 1];
+                Validate.isTrue(NumberUtils.isParsable(weightString), "Please provide a numeric value for weight.");
+                this.weight = Integer.parseInt(weightString);
+            }
+
+            int index2 = ArrayUtils.indexOf(args, "-separator");
+            if (index2 < args.length - 1) {
+                valueSeparator = args[index2 + 1];
+            }
+        }
+    }
+
     public WeightedSegmentsFormatter(final int weight) {
-        this(weight, false);
+        this(new String[] { "weight", String.valueOf(weight)});
     }
 
     public WeightedSegmentsFormatter(final int weight, final boolean prependPriority) {
-        this(weight, prependPriority, DEFAULT_SEPARATOR);
+        this(new String[] { "weight", String.valueOf(weight), prependPriority ? "-pp" : ""});
     }
 
     public WeightedSegmentsFormatter(final int weight, final boolean prependPriority, final String valueSeparator) {
-        this.weight = weight;
-        this.valueSeparator = valueSeparator;
-        this.prependPriority = prependPriority;
+        this(new String[] { "weight", String.valueOf(weight), prependPriority ? "-pp" : "", "-separator", valueSeparator});
     }
 
     @Override

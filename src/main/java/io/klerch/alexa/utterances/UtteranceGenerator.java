@@ -8,6 +8,7 @@ import io.klerch.alexa.utterances.output.FileOutputWriter;
 import io.klerch.alexa.utterances.output.OutputWriter;
 import io.klerch.alexa.utterances.util.Resolver;
 import io.klerch.alexa.utterances.util.ResourceReader;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class UtteranceGenerator {
     // 1) Set the key of a file with utterances you created in the utterances-folder
-    private final static String utteranceFileKey = "harmony"; // e.g. "booking" for using "/resources/output/utterances/booking.grammar"
+    private final static String utteranceFileKey = "booking"; // e.g. "booking" for using "/resources/output/utterances/booking.grammar"
 
     // 2) choose one of  the output writers
     private static final OutputWriter OUTPUT_WRITER = new FileOutputWriter(utteranceFileKey);
@@ -29,14 +30,14 @@ public class UtteranceGenerator {
 
     // 3) choose formatter
     //private static final Formatter FORMATTER = new SMAPIFormatter("my invocation name");
-    //private static final Formatter FORMATTER = new SkillBuilderFormatter();
-    private static final Formatter FORMATTER = new UtteranceListFormatter();
+    private static final Formatter FORMATTER = new SkillBuilderFormatter();
+    //private static final Formatter FORMATTER = new UtteranceListFormatter();
     //private static final Formatter FORMATTER = new WeightedSegmentsFormatter(1); // use booking2 as utteranceFileKey for an example
 
     // 4) run and done
     public static void main(final String [] args) {
-        generateUtterances(Arrays.stream(args).findFirst().orElse(utteranceFileKey));
-        OUTPUT_WRITER.beforeWrite(FORMATTER);
+        generateUtterances(getUtteranceFileKey(args).orElse(utteranceFileKey));
+        OUTPUT_WRITER.beforeWrite(getFormatter(args).orElse(FORMATTER));
         try {
             final List<String> utterances = new ArrayList<>();
             intentsAndUtterances.forEach((intent, utterancesOfIntent) -> {
@@ -46,6 +47,23 @@ public class UtteranceGenerator {
         } finally {
             OUTPUT_WRITER.print();
         }
+    }
+
+    private static Optional<Formatter> getFormatter(final String[] args) {
+        return ArrayUtils.contains(args, "-smapi") ? Optional.of(new SMAPIFormatter(args)) :
+                ArrayUtils.contains(args, "-sb") || ArrayUtils.contains(args, "-skillBuilder") ? Optional.of(new SkillBuilderFormatter()) :
+                        ArrayUtils.contains(args, "-ul") || ArrayUtils.contains(args, "-utteranceList") ? Optional.of(new UtteranceListFormatter()) :
+                                ArrayUtils.contains(args, "-ws") || ArrayUtils.contains(args, "-weightedSegments") ? Optional.of(new WeightedSegmentsFormatter(args)) : Optional.empty();
+    }
+
+    private static Optional<String> getUtteranceFileKey(final String[] args) {
+        if (args != null) {
+            int index = ArrayUtils.indexOf(args, "-f");
+            if (index < args.length - 1) {
+                return Optional.of(args[index + 1]);
+            }
+        }
+        return Optional.empty();
     }
 
     // stores the list of values contained in slots of utterances

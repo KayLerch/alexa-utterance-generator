@@ -4,12 +4,28 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.klerch.alexa.utterances.model.LanguageModel;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
+
+import java.util.Arrays;
 
 public class SMAPIFormatter implements Formatter {
-    private final LanguageModel model;
+    private LanguageModel model;
+
+    public SMAPIFormatter(final String[] args) {
+        if (args != null) {
+            int index = ArrayUtils.indexOf(args, "-in");
+            if (index < args.length - 1) {
+                final String invocationName = args[index + 1];
+                Validate.notBlank(invocationName, "Please provide an invocation-name.");
+                Validate.isTrue(!invocationName.startsWith("-"), "Please provide a valid invocation-name.");
+                this.model = new LanguageModel(invocationName);
+            }
+        }
+    }
 
     public SMAPIFormatter(final String invocatioName) {
-        this.model = new LanguageModel(invocatioName);
+        this(new String[] { "-in", invocatioName});
     }
 
     @Override

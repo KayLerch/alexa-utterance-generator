@@ -5,6 +5,15 @@ import org.apache.commons.lang3.StringUtils;
 public class UtteranceListFormatter implements Formatter {
     private StringBuilder sb;
     private int numOfSamples = 0;
+    private final boolean firstWordIsIntentName;
+
+    public UtteranceListFormatter() {
+        this(true);
+    }
+
+    public UtteranceListFormatter(final boolean firstWordIsIntentName) {
+        this.firstWordIsIntentName = firstWordIsIntentName;
+    }
 
     @Override
     public void before() {
@@ -13,8 +22,8 @@ public class UtteranceListFormatter implements Formatter {
 
     @Override
     public boolean write(final String sample) {
-        if (!StringUtils.startsWithIgnoreCase(sample, "AMAZON.") || sample.split(" ").length > 1) {
-            sb.append(numOfSamples++ > 0 ? "\n" : "").append(sample);
+        if (!firstWordIsIntentName || sample.split(" ").length > 1) {
+            sb.append(numOfSamples++ > 0 ? "\n" : "").append(sample.trim());
             return true;
         }
         return false;

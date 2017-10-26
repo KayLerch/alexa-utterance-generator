@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class Intent {
     @JsonIgnore
-    private static List<String> slotSuffix = Arrays.asList("A","B","C","D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y");
+    private static List<String> slotSuffix = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
 
     @JsonProperty
     private final String name;
