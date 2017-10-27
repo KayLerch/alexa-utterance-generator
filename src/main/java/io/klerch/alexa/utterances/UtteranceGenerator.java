@@ -2,8 +2,6 @@ package io.klerch.alexa.utterances;
 
 import io.klerch.alexa.utterances.format.*;
 import io.klerch.alexa.utterances.format.Formatter;
-import io.klerch.alexa.utterances.model.LanguageModel;
-import io.klerch.alexa.utterances.output.ConsoleOutputWriter;
 import io.klerch.alexa.utterances.output.FileOutputWriter;
 import io.klerch.alexa.utterances.output.OutputWriter;
 import io.klerch.alexa.utterances.util.Resolver;
@@ -29,7 +27,7 @@ public class UtteranceGenerator {
     //private static final OutputWriter OUTPUT_WRITER = new ConsoleOutputWriter();
 
     // 3) choose formatter
-    //private static final Formatter FORMATTER = new SMAPIFormatter("my invocation name");
+    //private static final Formatter FORMATTER = new SMAPIFormatter("booking");
     private static final Formatter FORMATTER = new SkillBuilderFormatter();
     //private static final Formatter FORMATTER = new UtteranceListFormatter();
     //private static final Formatter FORMATTER = new WeightedSegmentsFormatter(1); // use booking2 as utteranceFileKey for an example
@@ -50,10 +48,10 @@ public class UtteranceGenerator {
     }
 
     private static Optional<Formatter> getFormatter(final String[] args) {
-        return ArrayUtils.contains(args, "-smapi") ? Optional.of(new SMAPIFormatter(args)) :
-                ArrayUtils.contains(args, "-sb") || ArrayUtils.contains(args, "-skillBuilder") ? Optional.of(new SkillBuilderFormatter()) :
-                        ArrayUtils.contains(args, "-ul") || ArrayUtils.contains(args, "-utteranceList") ? Optional.of(new UtteranceListFormatter()) :
-                                ArrayUtils.contains(args, "-ws") || ArrayUtils.contains(args, "-weightedSegments") ? Optional.of(new WeightedSegmentsFormatter(args)) : Optional.empty();
+        return contains(args, "smapi") ? Optional.of(new SMAPIFormatter(args)) :
+                contains(args, "skillbuilder", "sb") ? Optional.of(new SkillBuilderFormatter()) :
+                        contains(args, "utterancelist", "ul") ? Optional.of(new UtteranceListFormatter()) :
+                                contains(args, "weightedSegments", "ws") ? Optional.of(new WeightedSegmentsFormatter(args)) : Optional.empty();
     }
 
     private static Optional<String> getUtteranceFileKey(final String[] args) {
@@ -64,6 +62,28 @@ public class UtteranceGenerator {
             }
         }
         return Optional.empty();
+    }
+
+    /*private static Optional<String> getArg(final String[] args, final String... keys) {
+        if (args != null) {
+            Arrays.stream(args).filter(arg -> Arrays.stream(keys).anyMatch(key -> key.equalsIgnoreCase(arg))).findFirst().ifPresent(arg -> {
+                int index = ArrayUtils.indexOf(args, arg);
+                if (args.length > index + 1) {
+
+                }
+            });
+
+            int index = Arrays.stream(keys) ArrayUtils.indexOf(args, "-f");
+            if (index < args.length - 1) {
+                return Optional.of(args[index + 1]);
+            }
+        }
+        return Optional.empty();
+    }*/
+
+    private static boolean contains(final String[] args, final String... keys) {
+        return args != null && Arrays.stream(args)
+                .anyMatch(arg -> Arrays.stream(keys).anyMatch(key -> key.equalsIgnoreCase(arg)));
     }
 
     // stores the list of values contained in slots of utterances

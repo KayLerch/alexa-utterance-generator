@@ -3,14 +3,12 @@ package io.klerch.alexa.utterances.format;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import io.klerch.alexa.utterances.model.LanguageModel;
+import io.klerch.alexa.utterances.model.SMAPIModel;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 
-import java.util.Arrays;
-
 public class SMAPIFormatter implements Formatter {
-    private LanguageModel model;
+    private SMAPIModel model;
 
     public SMAPIFormatter(final String[] args) {
         if (args != null) {
@@ -19,7 +17,7 @@ public class SMAPIFormatter implements Formatter {
                 final String invocationName = args[index + 1];
                 Validate.notBlank(invocationName, "Please provide an invocation-name.");
                 Validate.isTrue(!invocationName.startsWith("-"), "Please provide a valid invocation-name.");
-                this.model = new LanguageModel(invocationName);
+                this.model = new SMAPIModel(invocationName);
             }
         }
     }
@@ -33,7 +31,7 @@ public class SMAPIFormatter implements Formatter {
 
     @Override
     public boolean write(final String sample) {
-        model.addSample(sample);
+        model.getModel().addSample(sample);
         return true;
     }
 
