@@ -15,8 +15,8 @@ public class SMAPIFormatter implements Formatter {
             int index = ArrayUtils.indexOf(args, "-in");
             if (index < args.length - 1) {
                 final String invocationName = args[index + 1];
-                Validate.notBlank(invocationName, "Please provide an invocation-name.");
-                Validate.isTrue(!invocationName.startsWith("-"), "Please provide a valid invocation-name.");
+                Validate.notBlank(invocationName, "Please provide an invocation name.");
+                Validate.isTrue(!invocationName.startsWith("-"), "Please provide a valid invocation name.");
                 this.model = new SMAPIModel(invocationName);
             }
         }

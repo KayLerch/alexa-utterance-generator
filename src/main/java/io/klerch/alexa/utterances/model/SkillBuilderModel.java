@@ -3,6 +3,7 @@ package io.klerch.alexa.utterances.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -11,14 +12,20 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@JsonInclude
-public class InteractionModel {
+@JsonRootName("languageModel")
+public class SkillBuilderModel {
     @JsonIgnore
     private static String DEFAULT_INTENT_NAME = "MyIntent";
     @JsonProperty
     private final List<Intent> intents = new ArrayList<>();
     @JsonProperty
     private final List<SlotType> types = new ArrayList<>();
+    @JsonProperty
+    private final String invocationName;
+
+    public SkillBuilderModel(final String invocationName) {
+        this.invocationName = invocationName;
+    }
 
     public void addSample(final String sample) {
         final String[] words = sample.split(" ");

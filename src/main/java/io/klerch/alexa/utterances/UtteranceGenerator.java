@@ -27,8 +27,8 @@ public class UtteranceGenerator {
     //private static final OutputWriter OUTPUT_WRITER = new ConsoleOutputWriter();
 
     // 3) choose formatter
-    //private static final Formatter FORMATTER = new SMAPIFormatter("booking");
-    private static final Formatter FORMATTER = new SkillBuilderFormatter();
+    //private static final Formatter FORMATTER = new SMAPIFormatter("booking order");
+    private static final Formatter FORMATTER = new SkillBuilderFormatter("booking order");
     //private static final Formatter FORMATTER = new UtteranceListFormatter();
     //private static final Formatter FORMATTER = new WeightedSegmentsFormatter(1); // use booking2 as utteranceFileKey for an example
 
@@ -49,7 +49,7 @@ public class UtteranceGenerator {
 
     private static Optional<Formatter> getFormatter(final String[] args) {
         return contains(args, "smapi") ? Optional.of(new SMAPIFormatter(args)) :
-                contains(args, "skillbuilder", "sb") ? Optional.of(new SkillBuilderFormatter()) :
+                contains(args, "skillbuilder", "sb") ? Optional.of(new SkillBuilderFormatter(args)) :
                         contains(args, "utterancelist", "ul") ? Optional.of(new UtteranceListFormatter()) :
                                 contains(args, "weightedSegments", "ws") ? Optional.of(new WeightedSegmentsFormatter(args)) : Optional.empty();
     }

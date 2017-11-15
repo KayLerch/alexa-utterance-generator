@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName("interactionModel")
 public class SMAPIModel {
     @JsonProperty
-    private final LanguageModel languageModel = new LanguageModel();
+    private final LanguageModel languageModel;
 
     public SMAPIModel(final String invocationName) {
-        languageModel.invocationName = invocationName;
+        languageModel = new LanguageModel(invocationName);
     }
 
     @JsonIgnore
@@ -18,8 +18,9 @@ public class SMAPIModel {
         return this.languageModel;
     }
 
-    public class LanguageModel extends InteractionModel {
-        @JsonProperty
-        private String invocationName;
+    public class LanguageModel extends SkillBuilderModel {
+        public LanguageModel(final String invocationName) {
+            super(invocationName);
+        }
     }
 }
