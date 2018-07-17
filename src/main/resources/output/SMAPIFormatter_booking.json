@@ -45,27 +45,33 @@
       "types" : [ {
         "name" : "bookingType",
         "values" : [ {
-          "id" : "car",
+          "id" : "car01",
           "name" : {
             "value" : "car",
             "synonyms" : [ "ride", "taxi", "cab" ]
           }
         }, {
-          "id" : "hotel",
+          "id" : null,
           "name" : {
             "value" : "hotel",
             "synonyms" : [ "room" ]
           }
         }, {
-          "id" : "table",
+          "id" : null,
           "name" : {
             "value" : "table",
             "synonyms" : [ "restaurant", "dinner" ]
           }
         }, {
-          "id" : null,
+          "id" : "bike01",
           "name" : {
             "value" : "bike",
+            "synonyms" : [ ]
+          }
+        }, {
+          "id" : null,
+          "name" : {
+            "value" : "cinema",
             "synonyms" : [ ]
           }
         } ]

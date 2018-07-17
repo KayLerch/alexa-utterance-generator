@@ -1,74 +1,80 @@
 {
   "languageModel" : {
-    "intents" : [ {
-      "name" : "AMAZON.CancelIntent",
-      "samples" : [ ],
-      "slots" : [ ]
-    }, {
-      "name" : "AMAZON.HelpIntent",
-      "samples" : [ "I need help", "I need support", "I need your help", "I need your support", "need help", "need support", "need your help", "need your support" ],
-      "slots" : [ ]
-    }, {
-      "name" : "AMAZON.StopIntent",
-      "samples" : [ ],
-      "slots" : [ ]
-    }, {
-      "name" : "BookingIntent",
-      "samples" : [ "book a {bookingType} at {AMAZON_DATE}", "book a {bookingType} in {AMAZON_US_CITY}", "book me a {bookingType} at {AMAZON_DATE}", "book me a {bookingType} in {AMAZON_US_CITY}", "get a {bookingType} at {AMAZON_DATE}", "get a {bookingType} in {AMAZON_US_CITY}", "get me a {bookingType} at {AMAZON_DATE}", "get me a {bookingType} in {AMAZON_US_CITY}", "order a {bookingType} at {AMAZON_DATE}", "order a {bookingType} in {AMAZON_US_CITY}", "order me a {bookingType} at {AMAZON_DATE}", "order me a {bookingType} in {AMAZON_US_CITY}", "please book a {bookingType} at {AMAZON_DATE}", "please book a {bookingType} in {AMAZON_US_CITY}", "please book me a {bookingType} at {AMAZON_DATE}", "please book me a {bookingType} in {AMAZON_US_CITY}", "please get a {bookingType} at {AMAZON_DATE}", "please get a {bookingType} in {AMAZON_US_CITY}", "please get me a {bookingType} at {AMAZON_DATE}", "please get me a {bookingType} in {AMAZON_US_CITY}", "please order a {bookingType} at {AMAZON_DATE}", "please order a {bookingType} in {AMAZON_US_CITY}", "please order me a {bookingType} at {AMAZON_DATE}", "please order me a {bookingType} in {AMAZON_US_CITY}" ],
-      "slots" : [ {
+      "intents" : [ {
+        "name" : "AMAZON.CancelIntent",
+        "samples" : [ ],
+        "slots" : [ ]
+      }, {
+        "name" : "AMAZON.HelpIntent",
+        "samples" : [ "I need help", "I need support", "I need your help", "I need your support", "need help", "need support", "need your help", "need your support" ],
+        "slots" : [ ]
+      }, {
+        "name" : "AMAZON.StopIntent",
+        "samples" : [ ],
+        "slots" : [ ]
+      }, {
+        "name" : "BookingIntent",
+        "samples" : [ "book a {bookingType} at {AMAZON_DATE}", "book a {bookingType} in {AMAZON_US_CITY}", "book me a {bookingType} at {AMAZON_DATE}", "book me a {bookingType} in {AMAZON_US_CITY}", "get a {bookingType} at {AMAZON_DATE}", "get a {bookingType} in {AMAZON_US_CITY}", "get me a {bookingType} at {AMAZON_DATE}", "get me a {bookingType} in {AMAZON_US_CITY}", "order a {bookingType} at {AMAZON_DATE}", "order a {bookingType} in {AMAZON_US_CITY}", "order me a {bookingType} at {AMAZON_DATE}", "order me a {bookingType} in {AMAZON_US_CITY}", "please book a {bookingType} at {AMAZON_DATE}", "please book a {bookingType} in {AMAZON_US_CITY}", "please book me a {bookingType} at {AMAZON_DATE}", "please book me a {bookingType} in {AMAZON_US_CITY}", "please get a {bookingType} at {AMAZON_DATE}", "please get a {bookingType} in {AMAZON_US_CITY}", "please get me a {bookingType} at {AMAZON_DATE}", "please get me a {bookingType} in {AMAZON_US_CITY}", "please order a {bookingType} at {AMAZON_DATE}", "please order a {bookingType} in {AMAZON_US_CITY}", "please order me a {bookingType} at {AMAZON_DATE}", "please order me a {bookingType} in {AMAZON_US_CITY}" ],
+        "slots" : [ {
+          "name" : "bookingType",
+          "type" : "bookingType",
+          "samples" : [ ]
+        }, {
+          "name" : "AMAZON_DATE",
+          "type" : "AMAZON.DATE",
+          "samples" : [ ]
+        }, {
+          "name" : "AMAZON_US_CITY",
+          "type" : "AMAZON.US_CITY",
+          "samples" : [ ]
+        } ]
+      }, {
+        "name" : "FlightBooking",
+        "samples" : [ "book a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "book me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "get a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "get me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "order a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "order me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please book a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please book me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please get a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please get me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please order a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please order me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}" ],
+        "slots" : [ {
+          "name" : "AMAZON_US_CITY",
+          "type" : "AMAZON.US_CITY",
+          "samples" : [ ]
+        }, {
+          "name" : "AMAZON_US_CITY_A",
+          "type" : "AMAZON.US_CITY",
+          "samples" : [ ]
+        } ]
+      } ],
+      "types" : [ {
         "name" : "bookingType",
-        "type" : "bookingType",
-        "samples" : [ ]
-      }, {
-        "name" : "AMAZON_DATE",
-        "type" : "AMAZON.DATE",
-        "samples" : [ ]
-      }, {
-        "name" : "AMAZON_US_CITY",
-        "type" : "AMAZON.US_CITY",
-        "samples" : [ ]
-      } ]
-    }, {
-      "name" : "FlightBooking",
-      "samples" : [ "book a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "book me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "get a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "get me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "order a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "order me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please book a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please book me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please get a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please get me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please order a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}", "please order me a flight from {AMAZON_US_CITY} to {AMAZON_US_CITY_A}" ],
-      "slots" : [ {
-        "name" : "AMAZON_US_CITY",
-        "type" : "AMAZON.US_CITY",
-        "samples" : [ ]
-      }, {
-        "name" : "AMAZON_US_CITY_A",
-        "type" : "AMAZON.US_CITY",
-        "samples" : [ ]
-      } ]
-    } ],
-    "types" : [ {
-      "name" : "bookingType",
-      "values" : [ {
-        "id" : "car",
-        "name" : {
-          "value" : "car",
-          "synonyms" : [ "ride", "taxi", "cab" ]
-        }
-      }, {
-        "id" : "hotel",
-        "name" : {
-          "value" : "hotel",
-          "synonyms" : [ "room" ]
-        }
-      }, {
-        "id" : "table",
-        "name" : {
-          "value" : "table",
-          "synonyms" : [ "restaurant", "dinner" ]
-        }
-      }, {
-        "id" : null,
-        "name" : {
-          "value" : "bike",
-          "synonyms" : [ ]
-        }
-      } ]
-    } ],
-    "invocationName" : "booking order"
-  }
+        "values" : [ {
+          "id" : "car01",
+          "name" : {
+            "value" : "car",
+            "synonyms" : [ "ride", "taxi", "cab" ]
+          }
+        }, {
+          "id" : null,
+          "name" : {
+            "value" : "hotel",
+            "synonyms" : [ "room" ]
+          }
+        }, {
+          "id" : null,
+          "name" : {
+            "value" : "table",
+            "synonyms" : [ "restaurant", "dinner" ]
+          }
+        }, {
+          "id" : "bike01",
+          "name" : {
+            "value" : "bike",
+            "synonyms" : [ ]
+          }
+        }, {
+          "id" : null,
+          "name" : {
+            "value" : "cinema",
+            "synonyms" : [ ]
+          }
+        } ]
+      } ],
+      "invocationName" : "booking"
+    }
 }

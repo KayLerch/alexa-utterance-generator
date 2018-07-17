@@ -1,6 +1,7 @@
 // use synonyms with the following syntax.
 // the first value gets the default value and id in interaction models
-{car|ride|taxi|cab}
+car01: {car|ride|taxi|cab}
 {hotel|room}
 {table|restaurant|dinner}
-bike
+bike01: bike
+cinema

@@ -24,7 +24,7 @@ public class SkillBuilderModel {
     private final String invocationName;
 
     public SkillBuilderModel(final String invocationName) {
-        this.invocationName = invocationName;
+        this.invocationName = StringUtils.lowerCase(invocationName);
     }
 
     public void addSample(final String sample) {

@@ -1,9 +1,11 @@
 package io.klerch.alexa.utterances.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.klerch.alexa.utterances.util.Resolver;
 import io.klerch.alexa.utterances.util.ResourceReader;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ public class SlotType {
 
         public SlotValue(final String value) {
             this.name = new SlotName(value);
-            this.id = name.synonyms.isEmpty() ? null : name.value;
+            this.id = name.id;
         }
 
         public String getId() {
@@ -50,27 +52,37 @@ public class SlotType {
 
         @JsonInclude
         private class SlotName {
+            @JsonIgnore
+            private String id;
             @JsonProperty
             private String value;
             @JsonProperty
             private final List<String> synonyms = new ArrayList<>();
 
             private SlotName(final String value) {
+                final String[] idValues = value.split(":");
+
+
+
+                final String valuesString = idValues[idValues.length > 1 ? 1 : 0];
+
                 // first eliminate the brackets
-                final List<String> values = Resolver.resolveSlotValue(value.replace("{","").replace("}", ""));
+                final List<String> values = Resolver.resolveSlotValue(valuesString.replace("{","").replace("}", ""));
 
                 if (!values.isEmpty()) {
-                    this.value = values.get(0);
-                }
-
-                if (values.size() > 1) {
-                    this.addSynonyms(values.subList(1, values.size()));
+                    if (idValues.length > 1 && StringUtils.isNotBlank(idValues[0])) {
+                        this.id = idValues[0].trim();
+                    }
+                    if (values.size() > 1) {
+                        this.addSynonyms(values.subList(1, values.size()));
+                    }
+                    this.value = values.get(0).trim();
                 }
             }
 
             private void addSynonym(final String synonym) {
                 if (!this.synonyms.contains(synonym)) {
-                    this.synonyms.add(synonym);
+                    this.synonyms.add(synonym.trim());
                 }
             }
 

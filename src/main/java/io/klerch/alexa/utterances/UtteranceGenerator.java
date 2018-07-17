@@ -27,9 +27,10 @@ public class UtteranceGenerator {
     //private static final OutputWriter OUTPUT_WRITER = new ConsoleOutputWriter();
 
     // 3) choose formatter
-    //private static final Formatter FORMATTER = new SMAPIFormatter("booking order");
-    private static final Formatter FORMATTER = new SkillBuilderFormatter("booking order");
-    //private static final Formatter FORMATTER = new UtteranceListFormatter();
+    private static final Formatter FORMATTER = new SMAPIFormatter("booking");
+    // SkillBuilderFormatter is deprecated as format aligned to SMAPIFormat in the Alexa console. Please always use the SMAPIFormatter.
+    //private static final Formatter FORMATTER = new SkillBuilderFormatter("booking");
+    //private static final Formatter FORMATTER = new UtteranceListFormatter(false);
     //private static final Formatter FORMATTER = new WeightedSegmentsFormatter(1); // use booking2 as utteranceFileKey for an example
 
     // 4) run and done

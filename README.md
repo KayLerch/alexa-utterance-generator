@@ -74,6 +74,8 @@ Go to the _UtteranceGenerator_ entry class and set the according _FORMATTER_ to 
 or _SkillBuilderFormatter_ (generates a full interaction model you can drag / paste in the Skill-Builder code-section).
 You can also choose _SMAPIFormatter_ and give it an invocation name to generate SMAPI-compliant schema you can upload over the CLI.
 
+Side note: SkillBuilderFormatter is deprecated as its output format aligned to SMAPIFormat in the Alexa console. From now on, please always use the SMAPIFormatter.
+
 When you escaped the slot from resolution (see above) but still have a values-file in place, the formatter uses this
 file to populate the contained slot-values to a new custom slot-type in the schema. That being said, you can even make use
 of all the builtin-slot-types provided by Amazon in your grammar.
@@ -119,12 +121,15 @@ To leverage synonyms with this tool you simply apply the same syntax of placehol
 slot-values-files. The tool then auto-populates all the values it finds in one line as synonyms to a new custom slot-type
 and uses the first value per line as the value the synonyms resolve to.
 
+Now you can also assign a custom id to each of your slot values and synonym collections (see below example where custom ids added for car and bike values).
+
 Assume you have values named _bookingType.values_ file of the following:
 ```xml
-{car|ride|taxi|cab}
+car01: {car|ride|taxi|cab}
 {hotel|room}
 {table|restaurant|dinner}
-bike
+bike01: bike
+cinema
 ```
 
 and a grammar-file like the above you end up with the following interaction-model:
@@ -155,29 +160,35 @@ and a grammar-file like the above you end up with the following interaction-mode
   "types" : [ {
     "name" : "bookingType",
     "values" : [ {
-      "id" : "car",
+      "id" : "car01",
       "name" : {
         "value" : "car",
         "synonyms" : [ "ride", "taxi", "cab" ]
       }
     }, {
-      "id" : "hotel",
+      "id" : null,
       "name" : {
         "value" : "hotel",
         "synonyms" : [ "room" ]
       }
     }, {
-      "id" : "table",
+      "id" : null,
       "name" : {
         "value" : "table",
         "synonyms" : [ "restaurant", "dinner" ]
       }
     }, {
-      "id" : null,
+      "id" : "bike01",
       "name" : {
         "value" : "bike",
         "synonyms" : [ ]
       }
+    }, {
+      "id" : null,
+      "name" : {
+        "value" : "cinema",
+        "synonyms" : [ ]
+       }
     } ]
   } ]
 }

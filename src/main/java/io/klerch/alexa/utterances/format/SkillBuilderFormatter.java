@@ -7,6 +7,9 @@ import io.klerch.alexa.utterances.model.SkillBuilderModel;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 
+@Deprecated
+@SuppressWarnings("deprecation")
+// SkillBuilderFormatter is deprecated as format aligned to SMAPIFormat in the Alexa console. Please always use the SMAPIFormatter.
 public class SkillBuilderFormatter implements Formatter {
     private SkillBuilderModel model;
 
