@@ -7,7 +7,7 @@
         "slots" : [ ]
       }, {
         "name" : "AMAZON.HelpIntent",
-        "samples" : [ "I need help", "I need support", "I need your help", "I need your support", "need help", "need support", "need your help", "need your support" ],
+        "samples" : [ "i need help", "i need support", "i need your help", "i need your support", "need help", "need support", "need your help", "need your support" ],
         "slots" : [ ]
       }, {
         "name" : "AMAZON.StopIntent",
@@ -15,13 +15,13 @@
         "slots" : [ ]
       }, {
         "name" : "BookingIntent",
-        "samples" : [ "book a {bookingType} at {AMAZON_DATE}", "book a {bookingType} in {AMAZON_US_CITY}", "book me a {bookingType} at {AMAZON_DATE}", "book me a {bookingType} in {AMAZON_US_CITY}", "get a {bookingType} at {AMAZON_DATE}", "get a {bookingType} in {AMAZON_US_CITY}", "get me a {bookingType} at {AMAZON_DATE}", "get me a {bookingType} in {AMAZON_US_CITY}", "order a {bookingType} at {AMAZON_DATE}", "order a {bookingType} in {AMAZON_US_CITY}", "order me a {bookingType} at {AMAZON_DATE}", "order me a {bookingType} in {AMAZON_US_CITY}", "please book a {bookingType} at {AMAZON_DATE}", "please book a {bookingType} in {AMAZON_US_CITY}", "please book me a {bookingType} at {AMAZON_DATE}", "please book me a {bookingType} in {AMAZON_US_CITY}", "please get a {bookingType} at {AMAZON_DATE}", "please get a {bookingType} in {AMAZON_US_CITY}", "please get me a {bookingType} at {AMAZON_DATE}", "please get me a {bookingType} in {AMAZON_US_CITY}", "please order a {bookingType} at {AMAZON_DATE}", "please order a {bookingType} in {AMAZON_US_CITY}", "please order me a {bookingType} at {AMAZON_DATE}", "please order me a {bookingType} in {AMAZON_US_CITY}" ],
+        "samples" : [ "book a {booking} at {date}", "book a {booking} in {AMAZON_US_CITY}", "book me a {booking} at {date}", "book me a {booking} in {AMAZON_US_CITY}", "get a {booking} at {date}", "get a {booking} in {AMAZON_US_CITY}", "get me a {booking} at {date}", "get me a {booking} in {AMAZON_US_CITY}", "order a {booking} at {date}", "order a {booking} in {AMAZON_US_CITY}", "order me a {booking} at {date}", "order me a {booking} in {AMAZON_US_CITY}", "please book a {booking} at {date}", "please book a {booking} in {AMAZON_US_CITY}", "please book me a {booking} at {date}", "please book me a {booking} in {AMAZON_US_CITY}", "please get a {booking} at {date}", "please get a {booking} in {AMAZON_US_CITY}", "please get me a {booking} at {date}", "please get me a {booking} in {AMAZON_US_CITY}", "please order a {booking} at {date}", "please order a {booking} in {AMAZON_US_CITY}", "please order me a {booking} at {date}", "please order me a {booking} in {AMAZON_US_CITY}" ],
         "slots" : [ {
-          "name" : "bookingType",
+          "name" : "booking",
           "type" : "bookingType",
           "samples" : [ ]
         }, {
-          "name" : "AMAZON_DATE",
+          "name" : "date",
           "type" : "AMAZON.DATE",
           "samples" : [ ]
         }, {
@@ -43,7 +43,7 @@
         } ]
       } ],
       "types" : [ {
-        "name" : "bookingType",
+        "name" : "booking",
         "values" : [ {
           "id" : "car01",
           "name" : {

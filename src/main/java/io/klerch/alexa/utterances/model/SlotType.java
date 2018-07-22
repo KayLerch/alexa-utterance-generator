@@ -17,9 +17,9 @@ public class SlotType {
     @JsonProperty
     private final List<SlotValue> values = new ArrayList<>();
 
-    public SlotType(final String name) {
+    public SlotType(final String name, final String typeRef) {
         this.name = name;
-        ResourceReader.getPlaceholderValueList(name).ifPresent(this::addValues);
+        ResourceReader.getPlaceholderValueList(typeRef).ifPresent(this::addValues);
     }
 
     public String getName() {
@@ -61,8 +61,6 @@ public class SlotType {
 
             private SlotName(final String value) {
                 final String[] idValues = value.split(":");
-
-
 
                 final String valuesString = idValues[idValues.length > 1 ? 1 : 0];
 

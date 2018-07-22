@@ -1,7 +1,6 @@
 package io.klerch.alexa.utterances.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import org.apache.commons.lang3.StringUtils;
@@ -45,9 +44,14 @@ public class SkillBuilderModel {
         final Matcher slotsInUtterance = Pattern.compile("\\{(.*?)\\}").matcher(sampleUtterance);
         // for any of the placeholder ...
         while (slotsInUtterance.find()) {
-            final String slotName = slotsInUtterance.group(1);
-            if (!StringUtils.startsWithIgnoreCase(slotName,"AMAZON.") && types.stream().noneMatch(t -> t.getName().equals(slotName))) {
-                types.add(new SlotType(slotName));
+            // split by custom slot name and slot type reference
+            final String[] slot = slotsInUtterance.group(1).split(":");
+            // if no slot name given then type reference is equal to slot name
+            final String slotRef = slot.length > 1 ? slot[1] : slot[0];
+            final String slotName = slot[0];
+            // do not add slot type definition for builtins and any types already added and used in previous utterances
+            if (!StringUtils.startsWithIgnoreCase(slotRef,"AMAZON.") && types.stream().noneMatch(t -> t.getName().equals(slotName))) {
+                types.add(new SlotType(slotName, slotRef));
             }
         }
     }

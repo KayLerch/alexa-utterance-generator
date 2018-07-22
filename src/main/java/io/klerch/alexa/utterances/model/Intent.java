@@ -37,23 +37,24 @@ public class Intent {
         final Matcher slotsInUtterance = Pattern.compile("\\{(.*?)\\}").matcher(sample);
 
         while (slotsInUtterance.find()) {
-                final String slotType = slotsInUtterance.group(1);
-                final String slotNameNormalized = slotType.replaceAll("[^a-zA-Z\\s]", "_");
-                // remove special chars and numbers (for e.g. builtin-slot types)
-                String slotName = slotNameNormalized;
+                final String[] slot = slotsInUtterance.group(1).split(":");
+                String slotName = slot[0].replaceAll("[^a-zA-Z\\s]", "_");
+                final String slotType = slot.length > 1 ? slot[1] : slot[0];
+
+                String slotNameUnique = slotName;
                 int i = 0;
                 // within one sample-utterance slots must not have equal names
-                while (slotsInUtterance2.contains(slotName)) {
-                    slotName = slotNameNormalized + "_" + slotSuffix.get(i++);
+                while (slotsInUtterance2.contains(slotNameUnique)) {
+                    slotNameUnique = slotName + "_" + slotSuffix.get(i++);
                 }
-                final String slotNameFinal = slotName;
                 // keep track of what slot-names are already taken in this sample-utterance
-                slotsInUtterance2.add(slotNameFinal);
+                slotsInUtterance2.add(slotNameUnique);
+
+                final String slotNameFinal = slotNameUnique;
 
                 // add slot to reference if not already existent in this intent
                 if (slots.stream().noneMatch(s -> s.getName().equals(slotNameFinal))) {
                     slots.add(new Slot(slotNameFinal, slotType));
-
                 }
                 slotsInUtterance.appendReplacement(buffer, Matcher.quoteReplacement("{" + slotNameFinal + "}"));
             }

@@ -130,8 +130,9 @@ public class UtteranceGenerator {
     private static String lastIntent = "";
 
     private static void store(final String utterance) {
-        final String intent = (utterance.contains(":") ? utterance.split(":")[0].trim() : "").trim();
-        final String text = (utterance.contains(":") ? utterance.substring(utterance.indexOf(":") + 1) : utterance).trim();
+        boolean intentDef = (utterance.contains(":") && (!utterance.contains("{") || utterance.indexOf(":") < utterance.indexOf("{")));
+        final String intent = (intentDef ? utterance.split(":")[0].trim() : "").trim();
+        final String text = (intentDef ? utterance.substring(utterance.indexOf(":") + 1) : utterance).trim();
 
         // update last intent if current line defined a new one
         lastIntent = StringUtils.isBlank(intent) ? lastIntent : intent;
