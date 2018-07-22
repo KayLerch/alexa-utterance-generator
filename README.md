@@ -219,14 +219,14 @@ from resolution - will ensure unique slot-names in your interaction model (this 
 If you got this
 
 ```xml
-BookingIntent {bookingType} and {bookingType}
+BookingIntent: {bookingType} and {bookingType}
 ```
 
 it results in N*N sample utterances where N is the number of values contained in _bookingType.values_ file.
 However, if you do the following:
 
 ```xml
-BookingIntent {{bookingType}} and {{bookingType}}
+BookingIntent: {{bookingType}} and {{bookingType}}
 ```
 
 as you learned - the slots will be resolved as slot types in the schema but not in the utterances themselves.
@@ -257,5 +257,5 @@ In your interaction model it will look like the following:
 You can also take care of unique slot names by assigning custom slot names.
 
 ```xml
-BookingIntent {{bookingA:bookingType}} and {{bookingB:bookingType}}
+BookingIntent: {{bookingA:bookingType}} and {{bookingB:bookingType}}
 ```
