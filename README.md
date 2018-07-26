@@ -4,8 +4,8 @@ This is a handy tool many developers already use to **create better interaction 
 an **easy to read grammar for generating hundreds and thousands of variant sample utterances** and slot values with just a few written lines.
 The resulting JSON file can be used to **upload the model to your Alexa skill right away** either via your web browser into Alexa skill builder interface or with help of [SMAPI](https://developer.amazon.com/de/alexa-skills-kit/smapi).
 
-Using an utterance generator is a best practice. Better consistency and wider coverage of sample utterances improves the natural language understanding of Alexa
-and it avoids potential friction and false positives in your Alexa skills. It is almost impossive to achieve the same with manually writing down utterances line by line.
+Using an utterance generator is a best practice. Better consistency and wider coverage of sample utterances improve the natural language understanding of Alexa
+and it reduces the risk of incorrect intent mapping and slot filling in your Alexa skills. It is almost impossible to achieve the same with manually writing down utterances line by line.
 Secondly, rather than defining interaction models in JSON, grammar files provide an easy to understand syntax. Just think of outsourcing the interface design to another team or external agency - you'll give creative minds an option to contribute to your skills without knowing JSON or Alexa skill-specific elements. Needless to say it will simplify localization of your interaction model where you would want to include a non-tech translator.
 
 * [Quick start example](#1)
