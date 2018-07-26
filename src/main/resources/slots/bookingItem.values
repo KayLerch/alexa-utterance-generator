@@ -2,6 +2,6 @@
 // the first value gets the default value and id in interaction models
 car01: {car|ride|taxi|cab}
 {hotel|room}
-{table|restaurant|dinner}
+{table|restaurant|dinner}   // comment
 bike01: bike
 cinema

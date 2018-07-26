@@ -2,6 +2,7 @@ package io.klerch.alexa.utterances;
 
 import io.klerch.alexa.utterances.format.*;
 import io.klerch.alexa.utterances.format.Formatter;
+import io.klerch.alexa.utterances.output.ConsoleOutputWriter;
 import io.klerch.alexa.utterances.output.FileOutputWriter;
 import io.klerch.alexa.utterances.output.OutputWriter;
 import io.klerch.alexa.utterances.util.Resolver;
@@ -27,11 +28,8 @@ public class UtteranceGenerator {
     //private static final OutputWriter OUTPUT_WRITER = new ConsoleOutputWriter();
 
     // 3) choose formatter
-    private static final Formatter FORMATTER = new SMAPIFormatter("booking");
-    // SkillBuilderFormatter is deprecated as format aligned to SMAPIFormat in the Alexa console. Please always use the SMAPIFormatter.
-    //private static final Formatter FORMATTER = new SkillBuilderFormatter("booking");
-    //private static final Formatter FORMATTER = new UtteranceListFormatter(false);
-    //private static final Formatter FORMATTER = new WeightedSegmentsFormatter(1); // use booking2 as utteranceFileKey for an example
+    private static final Formatter FORMATTER = new SMAPIFormatter(); // optionally give it an invocation name as constructor value if you did not provide one in your grammar file
+    //private static final Formatter FORMATTER = new UtteranceListFormatter();
 
     // 4) run and done
     public static void main(final String [] args) {
@@ -98,15 +96,20 @@ public class UtteranceGenerator {
             final Matcher placeholdersInUtterance = Pattern.compile("\\{(.*?)\\}").matcher(utterance);
             // for any of the placeholder ...
             while (placeholdersInUtterance.find()) {
+                final AtomicBoolean escaped = new AtomicBoolean(false);
                 final String placeholderName = placeholdersInUtterance.group(1);
                 // generate unique placeholder-key
                 final String placeholderKey = "{" + UUID.randomUUID().toString() + "}";
-                placeholders.put(placeholderKey, placeholderName);
+                if (placeholderName.startsWith("{")) {
+                    escaped.set(true);
+                }
+                final String placeholderRef = (escaped.get() ? "{" : "") + placeholderName.replace("{", "").replace("}", "") + (escaped.get() ? "}" : "");
+                placeholders.put(placeholderKey, placeholderRef);
                 placeholdersInUtterance.appendReplacement(buffer, Matcher.quoteReplacement(placeholderKey));
             }
             placeholdersInUtterance.appendTail(buffer);
 
-            final String finalUtterance = buffer.toString();
+            final String finalUtterance = buffer.toString().replace("{{", "{").replace("}}", "}");
             generatePermutations(getPlaceholders(placeholders), 0, finalUtterance);
         });
     }

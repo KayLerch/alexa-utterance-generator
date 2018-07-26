@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Deprecated
 public class WeightedSegmentsFormatter implements Formatter {
     private int weight;
     private String valueSeparator = ";";

@@ -12,6 +12,10 @@ import java.util.Scanner;
 
 public class ResourceReader {
     public static Optional<List<String>> getPlaceholderValueList(final String valueResource) {
+        // skip escaped placeholders
+        if (valueResource.startsWith("{")) {
+            return Optional.empty();
+        }
         final List<String> lines = getList(String.format("/slots/%s.values", valueResource));
         return lines.isEmpty() ? Optional.empty() : Optional.of(lines);
     }
@@ -28,7 +32,7 @@ public class ResourceReader {
 
             try (final Scanner scanner = new Scanner(file)) {
                 while (scanner.hasNextLine()) {
-                    lines.add(scanner.nextLine());
+                    lines.add(scanner.nextLine().split("//")[0]);
                 }
                 scanner.close();
             } catch (final IOException e) {

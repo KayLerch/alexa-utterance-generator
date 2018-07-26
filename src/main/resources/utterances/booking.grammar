@@ -1,3 +1,6 @@
+// Invocation name for this skill can also be set as parameter to SMAPIFormatter constructor
+Invocation: travel booking
+
 // builtin intents
 AMAZON.HelpIntent: {|i} need {|your} {help|support}
 AMAZON.CancelIntent:
@@ -5,8 +8,8 @@ AMAZON.StopIntent:
 
 // custom intents
 BookingIntent:
-{|please} {bookingAction} {|me} a {{booking:bookingType}} at {{date:AMAZON.DATE}}
-{|please} {bookingAction} {|me} a {{booking:bookingType}} in {{AMAZON.US_CITY}}
+{|please} {bookingAction} {|me} a {{item:bookingItem}} {|at|on|for} {{date:AMAZON.DATE|time:AMAZON.TIME}} // comment
+{|please} {bookingAction} {|me} a {{item:bookingItem}} in {{usCity:AMAZON.US_CITY|euCity:AMAZON.EUROPE_CITY}}
 
 FlightBooking:
-{|please} {bookingAction} {|me} a flight from {{AMAZON.US_CITY}} to {{AMAZON.US_CITY}}
+{|please} {bookingAction} {|me} a flight from {{fromUS:AMAZON.US_CITY|fromEU:AMAZON.EUROPE_CITY}} to {{toUS:AMAZON.US_CITY|toEU:AMAZON.EUROPE_CITY}}

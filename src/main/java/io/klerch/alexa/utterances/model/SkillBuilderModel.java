@@ -20,7 +20,10 @@ public class SkillBuilderModel {
     @JsonProperty
     private final List<SlotType> types = new ArrayList<>();
     @JsonProperty
-    private final String invocationName;
+    private String invocationName;
+
+    public SkillBuilderModel() {
+    }
 
     public SkillBuilderModel(final String invocationName) {
         this.invocationName = StringUtils.lowerCase(invocationName);
@@ -30,6 +33,11 @@ public class SkillBuilderModel {
         final String[] words = sample.split(" ");
         final String intentName = words.length < 1 || StringUtils.isBlank(words[0]) ? DEFAULT_INTENT_NAME : words[0];
         final String sampleUtterance = words.length > 1 ? sample.substring(sample.indexOf(" ") + 1).trim() : "";
+
+        if (StringUtils.equalsIgnoreCase("invocation", intentName)) {
+            this.invocationName = StringUtils.lowerCase(sampleUtterance);
+            return;
+        }
 
         // skip blank utterances except for builtin-intents that can exist without samples
         if (StringUtils.isBlank(sampleUtterance) && !StringUtils.startsWithIgnoreCase(intentName, "AMAZON.")) return;
@@ -48,10 +56,12 @@ public class SkillBuilderModel {
             final String[] slot = slotsInUtterance.group(1).split(":");
             // if no slot name given then type reference is equal to slot name
             final String slotRef = slot.length > 1 ? slot[1] : slot[0];
-            final String slotName = slot[0];
             // do not add slot type definition for builtins and any types already added and used in previous utterances
-            if (!StringUtils.startsWithIgnoreCase(slotRef,"AMAZON.") && types.stream().noneMatch(t -> t.getName().equals(slotName))) {
-                types.add(new SlotType(slotName, slotRef));
+            if (types.stream().noneMatch(t -> t.getName().equals(slotRef))) {
+                final SlotType slotType = new SlotType(slotRef, slotRef);
+                if (slotType.hasValues()) {
+                    types.add(slotType);
+                }
             }
         }
     }

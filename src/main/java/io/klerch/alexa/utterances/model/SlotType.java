@@ -34,6 +34,10 @@ public class SlotType {
         values.forEach(this::addValue);
     }
 
+    public boolean hasValues() {
+        return !values.isEmpty();
+    }
+
     @JsonInclude
     private class SlotValue {
         @JsonProperty
