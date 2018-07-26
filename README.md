@@ -66,8 +66,8 @@ Write slot values down line by line and optionally assign synonyms (e.g. _room_ 
             ...
           ],
           "slots":[ {
-              "name":"bookingType",
-              "type":"bookingType"
+              "name":"bookingItem",
+              "type":"bookingItem"
             },
             {
               "name":"date",
