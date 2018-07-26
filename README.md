@@ -11,7 +11,7 @@ Secondly, rather than defining interaction models in JSON, grammar files provide
 * [Quick start example](#1)
 * [Benefits](#2)
 * [Reference](#3)
-  * [**Execute](#31)
+  * [Execute](#31)
   * [**.grammar syntax** for utterance definitions](#32)
     * [Invocation name](#321)
     * [Alternate phrasing (inline)](#322)
@@ -28,7 +28,8 @@ Secondly, rather than defining interaction models in JSON, grammar files provide
   * [Comments](#34)
 
 
-## **1. Quick start example** <a name="1"></a>
+<a name="1"></a>
+## **1. Quick start example**
 
 You can find a full example in the [_resources_](/src/main/resources) folder of this project. The following is an excerpt and introduces just the basic concepts in order to get started quickly.
 
@@ -109,7 +110,8 @@ Write slot values down line by line and optionally assign synonyms (e.g. _room_ 
 
 As a working example is already in place just go to the _UtteranceGenerator_ class in your Java IDE and execute. The generator will pick up the referenced booking.grammar file and associated *.values files and generates the interaction schema which you will then find in the [/src/main/resources/output/](/src/main/resources/output/) folder. For refence, this is how it should look like: [SMAPIFormatter_booking.json](/src/main/resources/output/SMAPIFormatter_booking.json).
 
-## **2. Benefits** <a name="2"></a>
+<a name="2"></a>
+## **2. Benefits**
 * Provide more consistency and variety in your sample utterance collection by defining their grammar rather than writing down one by one
 * Don't care about duplicates and overlaps in utterances and slot values as this tool eliminates them
 * Avoid common pitfalls during certification of Alexa skills caused by an incompliant interaction schema
@@ -117,9 +119,11 @@ As a working example is already in place just go to the _UtteranceGenerator_ cla
 * Auto generate interaction models
 * Reuse value lists and utterance collections
 
-## **3. Reference** <a name="3"></a>
+<a name="3"></a>
+## **3. Reference**
 
-### **3.1 Execute** <a name="31"></a>
+<a name="31"></a>
+### **3.1 Execute**
 
 **From your IDE** Once you created your grammar file and optionally values files and stored it in the respective resource folders (you`ll will learn in the next chapters) open the _UtteranceGenerator_ class in your Java IDE.
 - set the _utteranceFileKey_ variable to the file key of your grammar file. If you got _booking.grammar_ the value of this variable should be _booking_
@@ -131,7 +135,8 @@ You can drag and drop the JSON file into the _JSON Editor_ in the _Build_ sectio
 
 **From command line** : there is also a CLI interface for the generator so you could also run it from your command line rather than using an IDE. I did not really test it so please use it with caution and patience :) Once this is working properly and reliably I will follow up with documentation.
 
-### **3.2 .grammar syntax for sample utterance definitions** <a name="32"></a>
+<a name="32"></a>
+### **3.2 .grammar syntax for sample utterance definitions**
 
 All your sample utterances will be defined in one text files with file ending _*.grammar_ which needs to be stored in the [/src/main/resources/utterances/](/src/main/resources/utterances/) folder in this project. The format of these files is very easy to read also for non-techies like Designers who likely own user experience in your project. You are basically defining all intents for your Alexa skill (including the[AMAZON-builtin intents](https://developer.amazon.com/de/docs/custom-skills/standard-built-in-intents.html)) followed by a colon and assigned sample utterances in (optionally) grammar style. You only need to reference the intent name once as all following lines up to the next intent definition are assigned to that last defined intent.
 
@@ -146,7 +151,8 @@ RainForecastIntent: will {it|there be} rain {|today}
 
 From above example you can see that builtin intents do not require a sample utterance as they Amazon covered that part. However, you can still extend with your own samples. _WeatherForecastIntent_ got two sample utterances not using any grammar whereas _RainForecastIntent_ got one grammar-style sample utterance resulting in 2 (it, there be) * 2 (blank, today) = 4 permutations.
 
-### 3.2.1 Invocation name <a name="321"></a>
+<a name="321"></a>
+### 3.2.1 Invocation name
 
 Optionally, you can set the invocation name for your Alexa skill in the grammar file as well. It is part of the generated interaction schema and is required unless you give it as constructor value to the _SMAPIFormatter_ in code (see below). Defining the invocation is easy and works the same as with intents. _Invocation_ is a reserved word in grammar files and is not processed as an intent definition.
 
@@ -155,7 +161,8 @@ Invocation: weather info
 RainForecastIntent: will {it|there be} rain {|today}
 ```
 
-### 3.2.2 Alternate phrasing (inline) <a name="322"></a>
+<a name="322"></a>
+### 3.2.2 Alternate phrasing (inline)
 
 We´ve seen this already in above examples and it´s one of the biggest strengths of grammar definition. Inline you can define different wording for one and the same thing, surrounded by **single curly brackets** and **separated by pipes (|) symbols**. A trailing or leading pipe within the curly brackets also adds a blank value as an option.
 
@@ -165,7 +172,8 @@ RainForecastIntent: will {it|there be} rain {|today}
 
 This results in _"will it rain"_, _"will there be rain"_, _"will it rain today"_ and _"will there be rain today"_. Pretty simple, right?
 
-### 3.2.3 Alternate phrasing by reference <a name="323"></a>
+<a name="323"></a>
+### 3.2.3 Alternate phrasing by reference
 
 If you got very long enumerations of alternate phrasings (like a long list of synonym verbs) and those repeat in many lines you may not want to have it inline in your grammar utterances. Therefore, you can store these values in a .values file, store it in the [/src/main/resources/slots/](/src/main/resources/slots/) folder and refer to it by its file key within curly brackets. Assume you have a file [bookingAction.values](/src/main/resources/slots/bookingAction.values) that contains three lines with _"book"_, _"get"_ and _"order"_ you can now do the following:
 
@@ -175,7 +183,8 @@ BookHotelIntent: please {bookingAction} me a room
 
 The generator will resolve this placeholder whenever it sees a file in the slots folder having the same name (e.g. _bookingAction.values_) as the placeholder reference (e.g. _bookingAction_). The above example results in _"please book me a room"_, _"please get me a room"_, _"please order me a room"_.
 
-### 3.2.4 Slots <a name="324"></a>
+<a name="324"></a>
+### 3.2.4 Slots
 
 If you are familiar with slots in Alexa skills you know there is a requirement to leave the placeholder within a sample utterance in order to extract certain information in your skill to process it. In order to prevend this generator from resolving the placeholder you need to surround it by **double curly brackets**.
 
@@ -185,7 +194,8 @@ BookHotelIntent: please {bookingAction} me a {{bookingItem}}
 
 This still requires a _*.values_ file called _bookingItem.values_ in the _slots_ folder but now the generator will leave it in the resulting sample utterances as a placeholder (slot). The result from above example now is: _"please book me a {bookingItem}"_, _"please get me a {bookingItem}"_, _"please order me a {bookingItem}"_. At the same time the generator will create a slot type called _bookingItem_ in your schema and adds all the values it found in the _bookingItem.values_ file.
 
-### 3.2.5 Builtin Slots <a name="325"></a>
+<a name="325"></a>
+### 3.2.5 Builtin Slots
 
 The same works with AMAZON-builtin slot types with one exception: the generator will not create a custom slot type for it in your schema as this is not required in Alexa skills. The generator will slightly rename the slot name as dots are not allowed in slot names. Please note: you can still extend builtin slot types with your own values by creating and storing a file in the _slots_ folders which is named as the builtin slot type (e.g. _[AMAZON.US_CITY.values](/src/main/resources/slots/AMAZON.US_CITY.values)_).
 
@@ -195,7 +205,8 @@ BookHotelIntent: please {bookingAction} me a {{bookingItem}} in {{AMAZON.US_CITY
 
 The result from above example now is: _"please book me a {bookingItem} in {AMAZON_US_CITY}"_, _"please get me a {bookingItem} in {AMAZON_US_CITY}"_, _"please order me a {bookingItem} in {AMAZON_US_CITY}"_.
 
-### 3.2.6 Named slots <a name="326"></a>
+<a name="326"></a>
+### 3.2.6 Named slots
 
 If you don't want to have the file key be your slot name in the sample utterances you can also define your own names by preceding it to the slot type reference (file key) and separate with a colon.
 
@@ -205,7 +216,8 @@ BookHotelIntent: please {bookingAction} me a {{item:bookingItem}} in {{city:AMAZ
 
 results in _"please book me a {item} in {city}"_, _"please get me a {item} in {city}"_, _"please order me a {item} in {city}"_.
 
-### 3.2.7 Alternate slots <a name="327"></a>
+<a name="327"></a>
+### 3.2.7 Alternate slots
 
 You can apply the concept of alternate phrasing to slot placeholders as well. Making a slot optional in you sample utterance is done by adding a preceding or trailing pipe symbol to the reference. You can even list more than just one slot type reference (file key + optionally custom slot name).
 
@@ -215,7 +227,8 @@ BookHotelIntent: please {bookingAction} me a {{|item:bookingItem}} in {{cityUS:A
 
 will also result in things like _"please book me a in {cityUS}"_, _"please get me a {item} in {cityUS}"_, _"please order me a in {cityEU}"_ and _"please order me a {item} in {cityEU}"_.
 
-### 3.2.8 Duplicate slots <a name="328"></a>
+<a name="328"></a>
+### 3.2.8 Duplicate slots
 
 In case you have more than one occurance of one and the same slot type reference in one sample utterance and you did not assign individual custom slot names to them (like above _cityUS_ and _cityEU_) the generator will take care of it. It's not allowed to have more than one slot with the same name in one utterance. The generator will recognize this pattern and will rename the second, third, ... occurance of the same name by adding suffix A, B, C ... to them.
 
@@ -227,13 +240,16 @@ In this example _US_CITY_ and _EU_CITY_ got the same slot name _city_. The gener
 
 This results in things like _"please book me a {item} in {city}"_, _"please get me a {item} in {cityA}"_.
 
-### 3.2.9 Duplicate sample utterances <a name="329"></a>
+<a name="329"></a>
+### 3.2.9 Duplicate sample utterances
 
 With grammar definitions you will very likely create overlaps and duplicate sample utterances. The generator will take care of it and removes duplicate sample utterances within one and the same intent. Just in case you got duplicate overlaps spanning over different intents the generator will throw an error. The tool cannot decide on your behalf which one is to remove and you need to resolve yourself.
 
-### **3.3 .values syntax** for slot definitions** <a name="33"></a>
+<a name="33"></a>
+### **3.3 .values syntax for slot definitions**
 
-### 3.3.1 Slot types <a name="331"></a>
+<a name="331"></a>
+### 3.3.1 Slot types
 
 Slot value collections and optionally also alternate phrasing is stored in separate _*.values_ files in [/src/main/resources/slots/](/src/main/resources/slots/) folder of this project. They will be referenced by using they file names as placeholders within your sample utterances in the _*.grammar_ files. (e.g. _{{mySlot}}_ resolves to values stored in _mySlot.values_ file).
 
@@ -253,7 +269,8 @@ order
 
 The generator resolves the placeholder _{bookingAction}_ by generating all permutations with _"book"_, _"get"_ and _"order"_ (e.g. _"please book me a {item} in {city}"_). In case the placeholder is representing a slot (in double curly brackets) the generator will take the values and adds it to a custom slot type in the output schema.
 
-### 3.3.2 Synonyms and Slot ids <a name="332"></a>
+<a name="332"></a>
+### 3.3.2 Synonyms and Slot ids
 
 If you would like to make use of [synonyms](https://developer.amazon.com/de/docs/custom-skills/define-synonyms-and-ids-for-slot-type-values-entity-resolution.html) in slots you can also use alternate phrasing syntax already introduced for the sample utterance. Here's the [bookingItems.values](/src/main/resources/slots/bookingAction.values) file for the above example.
 
@@ -348,7 +365,8 @@ The generator will now take these and creates a custom slot type in your interac
 
 The above example also shows an extension to a builtin slot type for _AMAZON.US_CITY_ which is coming from an additional _*.values_ file called _[AMAZON.US_CITY.values](/src/main/resources/slots/AMAZON.US_CITY.values)_
 
-### 3.4 Comments <a name="34"></a>
+<a name="34"></a>
+### 3.4 Comments
 
 It is often useful to leave comments in your artifacts to document and explain what was defined as an intent, sample utterance or slot value. You can make use of comments in _*.grammar_ and _*.values_ file by prepending a line with double forward slashes (_//_). It both works inline and in new line.
 
