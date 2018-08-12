@@ -26,7 +26,7 @@ The resulting JSON file can be used to **upload the model to your Alexa skill ri
       * [Alternate slots](#317)
       * [Duplicate slots](#318)
     * [Duplicate sample utterances](#319)
-  * [**.values syntax** for slot definitions](#32)
+  * [Defining value collections](#32)
     * [Slot types](#321)
     * [Synonyms and Slot Ids](#322)
   * [Comments](#33)
@@ -78,8 +78,7 @@ hotel, room
 cinema
 ```
 
-Write slot values down line by line and optionally assign synonyms (e.g. _room_ for _hotel_) and a custom identifier (e.g. _car01_).
-Running _alexa-generate.jar_ from your CLI or use _UtteranceGenerator_ console application from within your Java IDE results in the following
+Write slot values down line by line and optionally assign synonyms (e.g. _room_ for _hotel_) and a custom identifier (e.g. _car01_). Running _alexa-generate.jar_ from your CLI or use _UtteranceGenerator_ console application from within your Java IDE results in the following
 (see below or [here](/src/main/resources/output/travel_booking.json)):
 
 ```xml
@@ -368,43 +367,59 @@ This results in things like _"please book me a {item} in {city}"_, _"please get 
 With grammar definitions you will very likely create overlaps and duplicate sample utterances. The generator will take care of it and removes duplicate sample utterances within one and the same intent. Just in case you got duplicate overlaps spanning over different intents the generator will throw an error. The tool cannot decide on your behalf which one is to remove and you need to resolve yourself.
 
 <a name="32"></a>
-### **3.2 .values syntax for slot definitions**
+### **3.2 Defining value collections**
 
 <a name="321"></a>
 ### 3.2.1 Slot types
 
-Slot value collections and optionally also alternate phrasing is stored in separate _*.values_ files in [/src/main/resources/slots/](/src/main/resources/slots/) folder of this project. They will be referenced by using they file names as placeholders within your sample utterances in the _*.grammar_ files. (e.g. _{{mySlot}}_ resolves to values stored in _mySlot.values_ file).
+When you're using _{{slots}}_ and _{placeholders}_ in your grammar definition there needs to be place where to define what's in there. You can either do it within your *.grammar files or use separate *.values files listing all the values.
+
+***Specified in .grammar file**
+
+First let's look at an example where slot and placeholder values are specified in grammar files.
 
 ```xml
 Invocation: travel booking
-BookHotelIntent: {|please} {bookingAction} me a {{item:bookingItem}} {at|on|for} {{date:AMAZON.DATE}}
 BookHotelIntent: {|please} {bookingAction} me a {{item:bookingItem}} in {{city:AMAZON.US_CITY}}
+
+{bookingAction}: get, book, order
+
+{bookingItem}:
+car
+hotel
+table
+
+{AMAZON.US_CITY}: big apple
 ```
 
-Slot values in these files are listed line by line. Here's a very simple example for the [bookingAction.values](/src/main/resources/slots/bookingAction.values) used in
+_bookingAction_ is a placeholder for alternate phrasing which is further defined below. There's a simplified CSV format for defining alternative phrasing. "_get, book, order_" is equal to _{get|book|order}. You can add as many lines as you want to resolve the _{bookingAction}_ in your utterances even with more than just one alternate phrasing.
 
-```xml
-book
-get
-order
-```
+_bookingItem_ is a slot and values are defined the same. Indeed, a values definition starting with {placeholder:} can be used as a {placeholder} and {{slot}} in sample utterances. Please note that for slots individual values ending up in a slot type in your schema need to be separated by linebreak. Assume you would use {{bookingAction}} as a slot in your utterance. The generator treats separated values in one line as alternatives - for slots this means getting a new slot type called _bookingAction_ having only one slot value _get_ with _book_ and _get_ as synonyms added to it.
+
+***Specified in .values files**
+
+Slot value collections and alternate phrasing can also be stored in separate _*.values_ files. Those files need to be named like the placeholder name (e.g. _bookingAction.values_) and for slots the slot type name (e.g. _bookingItem.values_ or _AMAZON.US_CITY.values_). Syntax for defining values in these files is the same as described above.
+
+Here's a very simple example for the [bookingAction.values](/src/main/resources/slots/bookingAction.values), [bookingItem.values](/src/main/resources/slots/bookingItem.values) and [AMAZON.US_CITY.values](/src/main/resources/slots/AMAZON.US_CITY.values)
 
 The generator resolves the placeholder _{bookingAction}_ by generating all permutations with _"book"_, _"get"_ and _"order"_ (e.g. _"please book me a {item} in {city}"_). In case the placeholder is representing a slot (in double curly brackets) the generator will take the values and adds it to a custom slot type in the output schema.
+
+Needless to say you can do both at the same time: define values in separated files and within your *.grammar file. If you define _{bookingAction}: get, book, order_ in your grammar the generator won't consider _bookingAction.values_ anymore as it always prioritizes the first.
 
 <a name="322"></a>
 ### 3.2.2 Synonyms and Slot ids
 
-If you would like to make use of [synonyms](https://developer.amazon.com/de/docs/custom-skills/define-synonyms-and-ids-for-slot-type-values-entity-resolution.html) in slots you can also use alternate phrasing syntax already introduced for the sample utterance. Here's the [bookingItems.values](/src/main/resources/slots/bookingAction.values) file for the above example.
+If you would like to make use of [synonyms](https://developer.amazon.com/de/docs/custom-skills/define-synonyms-and-ids-for-slot-type-values-entity-resolution.html) in slots you can also use alternate phrasing syntax already introduced for the sample utterance. Here's the [bookingItems.values](/src/main/resources/slots/bookingAction.values) file for the above example. Please note, you can do the same within your grammar specification where you would prepend {bookingItems}: to the below in your grammar-file.
 
 ```xml
-car01: {car|ride|taxi|cab}
-{hotel|room}
+{car01:car|ride|taxi|cab}
+hotel, room
 {table|restaurant|dinner}
-bike01: bike
+{bike01:bike}
 cinema
 ```
 
-We see several things here which all work side by side. First of all we are created synonyms for slot value _car_ (ride, taxi, cab), _hotel_ (room) and _table_ (restaurant, dinner), again by using alternate phrasing syntax with curly brackets and values separated by pipe symbols. Secondly, for car and bike we defined custom slot ids. In particular, this is important for slot values having synonyms as you need to check for just this id in your code to handle all the synonyms. Custom slot ids are assigned in the same way you assigned intent names to your sample utterances by using a colon.
+We see several things here which all work side by side. First of all we created synonyms for slot value _car_ (ride, taxi, cab), _hotel_ (room) and _table_ (restaurant, dinner), again by using alternate phrasing syntax. Secondly, for car and bike we defined custom slot ids (curly brackets get mandatory here, so don't forget them). In particular, this is important for slot values having synonyms as you need to check for just this id in your code to handle all the synonyms. Note that if you do not assign a custom slot id the generator will set the first value as the id (e.g. _hotel_, _table_ and _cinema_).
 
 The generator will now take these and creates a custom slot type in your interaction schema.
 
@@ -463,7 +478,7 @@ The generator will now take these and creates a custom slot type in your interac
             "synonyms" : [ ]
           }
         }, {
-          "id" : null,
+          "id" : cinema,
           "name" : {
             "value" : "cinema",
             "synonyms" : [ ]
@@ -472,10 +487,10 @@ The generator will now take these and creates a custom slot type in your interac
       }, {
         "name" : "AMAZON.US_CITY",
         "values" : [ {
-          "id" : null,
+          "id" : "new york",
           "name" : {
-            "value" : "big apple",
-            "synonyms" : [ ]
+            "value" : "new york",
+            "synonyms" : [ "big apple" ]
           }
         } ]
       } ],
