@@ -1,8 +1,8 @@
-// Invocation name for this skill can also be set as parameter to SMAPIFormatter constructor
+// Invocation name for this skill
 Invocation: travel booking
 
 // builtin intents
-AMAZON.HelpIntent: {|i} need {|your} {help|support}
+AMAZON.HelpIntent: {i|} need {|your|some} {help|support}
 AMAZON.CancelIntent:
 AMAZON.StopIntent:
 
@@ -13,3 +13,9 @@ BookingIntent:
 
 FlightBooking:
 {|please} {bookingAction} {|me} a flight from {{fromUS:AMAZON.US_CITY|fromEU:AMAZON.EUROPE_CITY}} to {{toUS:AMAZON.US_CITY|toEU:AMAZON.EUROPE_CITY}}
+
+// Placeholders
+{bookingAction}: bring, order, get,
+
+// Extend a builtin slot is possible as well
+{AMAZON.US_CITY}: new york, big apple

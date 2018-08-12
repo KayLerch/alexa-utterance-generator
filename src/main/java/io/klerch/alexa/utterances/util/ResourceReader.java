@@ -1,42 +1,53 @@
 package io.klerch.alexa.utterances.util;
 
-import io.klerch.alexa.utterances.UtteranceGenerator;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+/**
+ * Reads grammar and value specification from local file system
+ */
 public class ResourceReader {
-    public static Optional<List<String>> getPlaceholderValueList(final String valueResource) {
-        // skip escaped placeholders
-        if (valueResource.startsWith("{")) {
-            return Optional.empty();
+    /**
+     * Looking up value specification file in a given path for a given file key
+     * @param path where to look up for values files
+     * @param valueResource file key
+     * @return if file found in path it returns the file content as a list of strings (one element per line)
+     */
+    public static Optional<List<String>> getPlaceholderValueList(final Path path, final String valueResource) {
+        final Path pathToFile = path.resolve(valueResource + ".values");
+        if (Files.exists(pathToFile)) {
+            final File valuesFiles = new File(pathToFile.toUri());
+            Validate.isTrue(valuesFiles.canRead(), "Could not obtain read access to referenced values file " + pathToFile.toAbsolutePath().toString());
+            return Optional.ofNullable(getLines(valuesFiles));
         }
-        final List<String> lines = getList(String.format("/slots/%s.values", valueResource));
-        return lines.isEmpty() ? Optional.empty() : Optional.of(lines);
+        return Optional.empty();
     }
 
-    public static List<String> getUtteranceList(final String utteranceResource) {
-        return getList(String.format("/utterances/%s.grammar", utteranceResource));
-    }
-
-    private static List<String> getList(final String fileName) {
+    /**
+     * Reads file contents to list of strings (one element per line). Cleans up comments and blank lines as well.
+     * @param file file reference
+     * @return list of strings representing lines in the file
+     */
+    public static List<String> getLines(final File file) {
         final List<String> lines = new ArrayList<>();
 
-        Optional.ofNullable(UtteranceGenerator.class.getResource(fileName)).ifPresent(url -> {
-            final File file = new File(url.getFile());
-
+        Optional.ofNullable(file).ifPresent(f -> {
             try (final Scanner scanner = new Scanner(file)) {
                 while (scanner.hasNextLine()) {
                     lines.add(scanner.nextLine().split("//")[0]);
                 }
                 scanner.close();
             } catch (final IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         });
         // eliminate empty lines

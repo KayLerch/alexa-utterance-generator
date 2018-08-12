@@ -14,8 +14,7 @@ src/main/resources/output/*
 !src/main/resources/slots/bookingItem.values
 !src/main/resources/slots/bookingAction.values
 !src/main/resources/utterances/booking.grammar
-!src/main/resources/output/SkillBuilderFormatter_booking.json
-!src/main/resources/output/UtteranceListFormatter_booking.txt
+!src/main/resources/output/travel_booking.json
 .idea
 *.iml
 /src/test

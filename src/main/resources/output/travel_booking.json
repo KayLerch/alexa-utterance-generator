@@ -1,0 +1,402 @@
+{
+  "interactionModel" : {
+    "languageModel" : {
+      "intents" : [
+        {
+          "name" : "AMAZON.CancelIntent"
+        },
+        {
+          "name" : "AMAZON.HelpIntent",
+          "samples" : [
+            "i need help",
+            "i need some help",
+            "i need some support",
+            "i need support",
+            "i need your help",
+            "i need your support",
+            "need help",
+            "need some help",
+            "need some support",
+            "need support",
+            "need your help",
+            "need your support"
+          ]
+        },
+        {
+          "name" : "AMAZON.StopIntent"
+        },
+        {
+          "name" : "BookingIntent",
+          "samples" : [
+            "a {item} at {date}",
+            "a {item} at {time}",
+            "a {item} for {date}",
+            "a {item} for {time}",
+            "a {item} in {euCity}",
+            "a {item} in {usCity}",
+            "a {item} on {date}",
+            "a {item} on {time}",
+            "a {item} {date}",
+            "a {item} {time}",
+            "bring a {item} at {date}",
+            "bring a {item} at {time}",
+            "bring a {item} for {date}",
+            "bring a {item} for {time}",
+            "bring a {item} in {euCity}",
+            "bring a {item} in {usCity}",
+            "bring a {item} on {date}",
+            "bring a {item} on {time}",
+            "bring a {item} {date}",
+            "bring a {item} {time}",
+            "bring me a {item} at {date}",
+            "bring me a {item} at {time}",
+            "bring me a {item} for {date}",
+            "bring me a {item} for {time}",
+            "bring me a {item} in {euCity}",
+            "bring me a {item} in {usCity}",
+            "bring me a {item} on {date}",
+            "bring me a {item} on {time}",
+            "bring me a {item} {date}",
+            "bring me a {item} {time}",
+            "get a {item} at {date}",
+            "get a {item} at {time}",
+            "get a {item} for {date}",
+            "get a {item} for {time}",
+            "get a {item} in {euCity}",
+            "get a {item} in {usCity}",
+            "get a {item} on {date}",
+            "get a {item} on {time}",
+            "get a {item} {date}",
+            "get a {item} {time}",
+            "get me a {item} at {date}",
+            "get me a {item} at {time}",
+            "get me a {item} for {date}",
+            "get me a {item} for {time}",
+            "get me a {item} in {euCity}",
+            "get me a {item} in {usCity}",
+            "get me a {item} on {date}",
+            "get me a {item} on {time}",
+            "get me a {item} {date}",
+            "get me a {item} {time}",
+            "me a {item} at {date}",
+            "me a {item} at {time}",
+            "me a {item} for {date}",
+            "me a {item} for {time}",
+            "me a {item} in {euCity}",
+            "me a {item} in {usCity}",
+            "me a {item} on {date}",
+            "me a {item} on {time}",
+            "me a {item} {date}",
+            "me a {item} {time}",
+            "order a {item} at {date}",
+            "order a {item} at {time}",
+            "order a {item} for {date}",
+            "order a {item} for {time}",
+            "order a {item} in {euCity}",
+            "order a {item} in {usCity}",
+            "order a {item} on {date}",
+            "order a {item} on {time}",
+            "order a {item} {date}",
+            "order a {item} {time}",
+            "order me a {item} at {date}",
+            "order me a {item} at {time}",
+            "order me a {item} for {date}",
+            "order me a {item} for {time}",
+            "order me a {item} in {euCity}",
+            "order me a {item} in {usCity}",
+            "order me a {item} on {date}",
+            "order me a {item} on {time}",
+            "order me a {item} {date}",
+            "order me a {item} {time}",
+            "please a {item} at {date}",
+            "please a {item} at {time}",
+            "please a {item} for {date}",
+            "please a {item} for {time}",
+            "please a {item} in {euCity}",
+            "please a {item} in {usCity}",
+            "please a {item} on {date}",
+            "please a {item} on {time}",
+            "please a {item} {date}",
+            "please a {item} {time}",
+            "please bring a {item} at {date}",
+            "please bring a {item} at {time}",
+            "please bring a {item} for {date}",
+            "please bring a {item} for {time}",
+            "please bring a {item} in {euCity}",
+            "please bring a {item} in {usCity}",
+            "please bring a {item} on {date}",
+            "please bring a {item} on {time}",
+            "please bring a {item} {date}",
+            "please bring a {item} {time}",
+            "please bring me a {item} at {date}",
+            "please bring me a {item} at {time}",
+            "please bring me a {item} for {date}",
+            "please bring me a {item} for {time}",
+            "please bring me a {item} in {euCity}",
+            "please bring me a {item} in {usCity}",
+            "please bring me a {item} on {date}",
+            "please bring me a {item} on {time}",
+            "please bring me a {item} {date}",
+            "please bring me a {item} {time}",
+            "please get a {item} at {date}",
+            "please get a {item} at {time}",
+            "please get a {item} for {date}",
+            "please get a {item} for {time}",
+            "please get a {item} in {euCity}",
+            "please get a {item} in {usCity}",
+            "please get a {item} on {date}",
+            "please get a {item} on {time}",
+            "please get a {item} {date}",
+            "please get a {item} {time}",
+            "please get me a {item} at {date}",
+            "please get me a {item} at {time}",
+            "please get me a {item} for {date}",
+            "please get me a {item} for {time}",
+            "please get me a {item} in {euCity}",
+            "please get me a {item} in {usCity}",
+            "please get me a {item} on {date}",
+            "please get me a {item} on {time}",
+            "please get me a {item} {date}",
+            "please get me a {item} {time}",
+            "please me a {item} at {date}",
+            "please me a {item} at {time}",
+            "please me a {item} for {date}",
+            "please me a {item} for {time}",
+            "please me a {item} in {euCity}",
+            "please me a {item} in {usCity}",
+            "please me a {item} on {date}",
+            "please me a {item} on {time}",
+            "please me a {item} {date}",
+            "please me a {item} {time}",
+            "please order a {item} at {date}",
+            "please order a {item} at {time}",
+            "please order a {item} for {date}",
+            "please order a {item} for {time}",
+            "please order a {item} in {euCity}",
+            "please order a {item} in {usCity}",
+            "please order a {item} on {date}",
+            "please order a {item} on {time}",
+            "please order a {item} {date}",
+            "please order a {item} {time}",
+            "please order me a {item} at {date}",
+            "please order me a {item} at {time}",
+            "please order me a {item} for {date}",
+            "please order me a {item} for {time}",
+            "please order me a {item} in {euCity}",
+            "please order me a {item} in {usCity}",
+            "please order me a {item} on {date}",
+            "please order me a {item} on {time}",
+            "please order me a {item} {date}",
+            "please order me a {item} {time}"
+          ],
+          "slots" : [
+            {
+              "name" : "item",
+              "type" : "bookingItem"
+            },
+            {
+              "name" : "date",
+              "type" : "AMAZON.DATE"
+            },
+            {
+              "name" : "time",
+              "type" : "AMAZON.TIME"
+            },
+            {
+              "name" : "usCity",
+              "type" : "AMAZON.US_CITY"
+            },
+            {
+              "name" : "euCity",
+              "type" : "AMAZON.EUROPE_CITY"
+            }
+          ]
+        },
+        {
+          "name" : "FlightBooking",
+          "samples" : [
+            "a flight from {fromEU} to {toEU}",
+            "a flight from {fromEU} to {toUS}",
+            "a flight from {fromUS} to {toEU}",
+            "a flight from {fromUS} to {toUS}",
+            "bring a flight from {fromEU} to {toEU}",
+            "bring a flight from {fromEU} to {toUS}",
+            "bring a flight from {fromUS} to {toEU}",
+            "bring a flight from {fromUS} to {toUS}",
+            "bring me a flight from {fromEU} to {toEU}",
+            "bring me a flight from {fromEU} to {toUS}",
+            "bring me a flight from {fromUS} to {toEU}",
+            "bring me a flight from {fromUS} to {toUS}",
+            "get a flight from {fromEU} to {toEU}",
+            "get a flight from {fromEU} to {toUS}",
+            "get a flight from {fromUS} to {toEU}",
+            "get a flight from {fromUS} to {toUS}",
+            "get me a flight from {fromEU} to {toEU}",
+            "get me a flight from {fromEU} to {toUS}",
+            "get me a flight from {fromUS} to {toEU}",
+            "get me a flight from {fromUS} to {toUS}",
+            "me a flight from {fromEU} to {toEU}",
+            "me a flight from {fromEU} to {toUS}",
+            "me a flight from {fromUS} to {toEU}",
+            "me a flight from {fromUS} to {toUS}",
+            "order a flight from {fromEU} to {toEU}",
+            "order a flight from {fromEU} to {toUS}",
+            "order a flight from {fromUS} to {toEU}",
+            "order a flight from {fromUS} to {toUS}",
+            "order me a flight from {fromEU} to {toEU}",
+            "order me a flight from {fromEU} to {toUS}",
+            "order me a flight from {fromUS} to {toEU}",
+            "order me a flight from {fromUS} to {toUS}",
+            "please a flight from {fromEU} to {toEU}",
+            "please a flight from {fromEU} to {toUS}",
+            "please a flight from {fromUS} to {toEU}",
+            "please a flight from {fromUS} to {toUS}",
+            "please bring a flight from {fromEU} to {toEU}",
+            "please bring a flight from {fromEU} to {toUS}",
+            "please bring a flight from {fromUS} to {toEU}",
+            "please bring a flight from {fromUS} to {toUS}",
+            "please bring me a flight from {fromEU} to {toEU}",
+            "please bring me a flight from {fromEU} to {toUS}",
+            "please bring me a flight from {fromUS} to {toEU}",
+            "please bring me a flight from {fromUS} to {toUS}",
+            "please get a flight from {fromEU} to {toEU}",
+            "please get a flight from {fromEU} to {toUS}",
+            "please get a flight from {fromUS} to {toEU}",
+            "please get a flight from {fromUS} to {toUS}",
+            "please get me a flight from {fromEU} to {toEU}",
+            "please get me a flight from {fromEU} to {toUS}",
+            "please get me a flight from {fromUS} to {toEU}",
+            "please get me a flight from {fromUS} to {toUS}",
+            "please me a flight from {fromEU} to {toEU}",
+            "please me a flight from {fromEU} to {toUS}",
+            "please me a flight from {fromUS} to {toEU}",
+            "please me a flight from {fromUS} to {toUS}",
+            "please order a flight from {fromEU} to {toEU}",
+            "please order a flight from {fromEU} to {toUS}",
+            "please order a flight from {fromUS} to {toEU}",
+            "please order a flight from {fromUS} to {toUS}",
+            "please order me a flight from {fromEU} to {toEU}",
+            "please order me a flight from {fromEU} to {toUS}",
+            "please order me a flight from {fromUS} to {toEU}",
+            "please order me a flight from {fromUS} to {toUS}"
+          ],
+          "slots" : [
+            {
+              "name" : "fromUS",
+              "type" : "AMAZON.US_CITY"
+            },
+            {
+              "name" : "fromEU",
+              "type" : "AMAZON.EUROPE_CITY"
+            },
+            {
+              "name" : "toUS",
+              "type" : "AMAZON.US_CITY"
+            },
+            {
+              "name" : "toEU",
+              "type" : "AMAZON.EUROPE_CITY"
+            }
+          ]
+        }
+      ],
+      "types" : [
+        {
+          "name" : "AMAZON.US_CITY",
+          "values" : [
+            {
+              "id" : "new york",
+              "name" : {
+                "value" : "new york",
+                "synonyms" : [
+                  "big apple"
+                ]
+              },
+              "slotName" : {
+                "value" : "new york",
+                "synonyms" : [
+                  "big apple"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name" : "bookingItem",
+          "values" : [
+            {
+              "id" : "car01",
+              "name" : {
+                "value" : "car",
+                "synonyms" : [
+                  "ride",
+                  "taxi",
+                  "cab"
+                ]
+              },
+              "slotName" : {
+                "value" : "car",
+                "synonyms" : [
+                  "ride",
+                  "taxi",
+                  "cab"
+                ]
+              }
+            },
+            {
+              "id" : "bike01",
+              "name" : {
+                "value" : "bike"
+              },
+              "slotName" : {
+                "value" : "bike"
+              }
+            },
+            {
+              "id" : "hotel",
+              "name" : {
+                "value" : "hotel",
+                "synonyms" : [
+                  "room"
+                ]
+              },
+              "slotName" : {
+                "value" : "hotel",
+                "synonyms" : [
+                  "room"
+                ]
+              }
+            },
+            {
+              "id" : "cinema",
+              "name" : {
+                "value" : "cinema"
+              },
+              "slotName" : {
+                "value" : "cinema"
+              }
+            },
+            {
+              "id" : "table",
+              "name" : {
+                "value" : "table",
+                "synonyms" : [
+                  "restaurant",
+                  "dinner"
+                ]
+              },
+              "slotName" : {
+                "value" : "table",
+                "synonyms" : [
+                  "restaurant",
+                  "dinner"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "invocationName" : "travel booking"
+    }
+  }
+}

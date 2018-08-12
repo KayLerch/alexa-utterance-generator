@@ -1,69 +1,115 @@
 package io.klerch.alexa.utterances.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+/**
+ * JSON object representing an intent in the skill interaction model
+ */
 public class Intent {
-    @JsonIgnore
-    private static List<String> slotSuffix = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
-
     @JsonProperty
     private final String name;
     @JsonProperty
-    private final List<String> samples = new ArrayList<>();
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<String> samples = new ArrayList<>();
     @JsonProperty
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private final List<Slot> slots = new ArrayList<>();
 
-    public Intent(final String name, final String sampleUtterance) {
+    /**
+     * New Intent with name
+     * @param name intent name
+     */
+    public Intent(final String name) {
         this.name = name;
-        addSample(sampleUtterance);
     }
 
+    /**
+     * Get name of intent
+     * @return name of intent
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Get list of sample utterances
+     * @return list of sample utterances
+     */
+    public List<String> getSamples() {
+        return samples;
+    }
+
+    /**
+     * Add new sample utterance to intent
+     * @param sample sample utterance
+     */
     public void addSample(final String sample) {
-        final List<String> slotsInUtterance2 = new ArrayList<>();
+        samples.add(sample);
+    }
 
-        final StringBuffer buffer = new StringBuffer();
-        final Matcher slotsInUtterance = Pattern.compile("\\{(.*?)\\}").matcher(sample);
+    /**
+     * Add new slot reference to intent
+     * @param slot slot object with reference name and slot type
+     */
+    public void addSlot(final Slot slot) {
+        slots.add(slot);
+    }
 
-        while (slotsInUtterance.find()) {
-                final String[] slot = slotsInUtterance.group(1).split(":");
-                String slotName = slot[0].replaceAll("[^a-zA-Z\\s]", "_");
-                final String slotType = slot.length > 1 ? slot[1] : slot[0];
+    /**
+     * Removes duplicate sample utterances and sorts alphabetically
+     */
+    @JsonIgnore
+    public void deduplicateAndSortSamples() {
+        samples = samples.stream().distinct().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+    }
 
-                String slotNameUnique = slotName;
-                int i = 0;
-                // within one sample-utterance slots must not have equal names
-                while (slotsInUtterance2.contains(slotNameUnique)) {
-                    slotNameUnique = slotName + "_" + slotSuffix.get(i++);
-                }
-                // keep track of what slot-names are already taken in this sample-utterance
-                slotsInUtterance2.add(slotNameUnique);
+    /**
+     * Returns true if intent got any sample utterances
+     * @return true if intent got any sample utterances. otherwise returns false.
+     */
+    @JsonIgnore
+    public boolean hasSamples() {
+        return !samples.isEmpty();
+    }
 
-                final String slotNameFinal = slotNameUnique;
+    /**
+     * Counts the number of sample utterances contained in the intent
+     * @return Count of sample utterances contained in the intent
+     */
+    @JsonIgnore
+    public int countSamples() {
+        return samples.size();
+    }
 
-                // add slot to reference if not already existent in this intent
-                if (slots.stream().noneMatch(s -> s.getName().equals(slotNameFinal))) {
-                    slots.add(new Slot(slotNameFinal, slotType));
-                }
-                slotsInUtterance.appendReplacement(buffer, Matcher.quoteReplacement("{" + slotNameFinal + "}"));
-            }
-            slotsInUtterance.appendTail(buffer);
+    /**
+     * Counts the number of slot references contained in the intent
+     * @return Count of slot references contained in the intent
+     */
+    @JsonIgnore
+    public int countSlots() {
+        return slots.size();
+    }
 
-            final String sampleUtterance = buffer.toString();
-
-            if (StringUtils.isNotBlank(sampleUtterance)) {
-                samples.add(sampleUtterance);
-            }
+    /**
+     * Compares sample utterances of this intent with sample utterances with the intent given to this method.
+     * Returns the list of duplicate sample utterances contained in both intents
+     * @param intent intent whose sample utterances to compare with sample utterance of this intent
+     * @return list of duplicate sample utterances contained in both intents
+     */
+    @JsonIgnore
+    public List<String> getDuplicateSamplesWith(final Intent intent) {
+        final Intent intentWithLessSamples = intent.samples.size() > this.samples.size() ? this : intent;
+        final Intent intentWithMoreSamples = intentWithLessSamples.equals(this) ? intent : this;
+        // create copy of samples
+        final List<String> samples = new ArrayList<>(intentWithLessSamples.samples);
+        samples.retainAll(intentWithMoreSamples.samples);
+        return samples;
     }
 }

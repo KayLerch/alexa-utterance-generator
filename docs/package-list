@@ -1,0 +1,8 @@
+io.klerch.alexa.utterances
+io.klerch.alexa.utterances.console
+io.klerch.alexa.utterances.formatter
+io.klerch.alexa.utterances.lambda
+io.klerch.alexa.utterances.model
+io.klerch.alexa.utterances.output
+io.klerch.alexa.utterances.processor
+io.klerch.alexa.utterances.util
