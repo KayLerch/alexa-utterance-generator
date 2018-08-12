@@ -4,15 +4,23 @@ import io.klerch.alexa.utterances.model.Generation;
 import io.klerch.alexa.utterances.output.OutputWriter;
 import org.apache.commons.lang3.StringUtils;
 
-import static io.klerch.alexa.utterances.formatter.PlainFormatter.EditorialFormatterBuilder.INTENT_DISPLAY_OPTION.ONCE_ON_TOP;
-import static io.klerch.alexa.utterances.formatter.PlainFormatter.EditorialFormatterBuilder.INTENT_DISPLAY_OPTION.ONCE_PER_LINE;
-import static io.klerch.alexa.utterances.formatter.PlainFormatter.EditorialFormatterBuilder.SLOT_TYPE_DISPLAY_OPTION.*;
+import static io.klerch.alexa.utterances.formatter.PlainFormatter.INTENT_DISPLAY_OPTION.ONCE_ON_TOP;
+import static io.klerch.alexa.utterances.formatter.PlainFormatter.INTENT_DISPLAY_OPTION.ONCE_PER_LINE;
+import static io.klerch.alexa.utterances.formatter.PlainFormatter.SLOT_TYPE_DISPLAY_OPTION.*;
 
 public class PlainFormatter implements Formatter {
-    private final EditorialFormatterBuilder.INTENT_DISPLAY_OPTION intentDisplay;
-    private final EditorialFormatterBuilder.SLOT_TYPE_DISPLAY_OPTION slotTypeDisplay;
+    private final INTENT_DISPLAY_OPTION intentDisplay;
+    private final SLOT_TYPE_DISPLAY_OPTION slotTypeDisplay;
     private final boolean displayInvocationName;
     private final OutputWriter writer;
+
+    public enum INTENT_DISPLAY_OPTION {
+        ONCE_ON_TOP, ONCE_PER_LINE, NONE
+    }
+
+    public enum SLOT_TYPE_DISPLAY_OPTION {
+        ID_AND_VALUES, ID_ONLY, VALUES_ONLY, NONE
+    }
 
     @Override
     public void print(final Generation generation) {
@@ -60,13 +68,6 @@ public class PlainFormatter implements Formatter {
     }
 
     public static class EditorialFormatterBuilder {
-        public enum INTENT_DISPLAY_OPTION {
-            ONCE_ON_TOP, ONCE_PER_LINE, NONE
-        }
-
-        public enum SLOT_TYPE_DISPLAY_OPTION {
-            ID_AND_VALUES, ID_ONLY, VALUES_ONLY, NONE
-        }
 
         private INTENT_DISPLAY_OPTION intentDisplay = INTENT_DISPLAY_OPTION.NONE;
         private SLOT_TYPE_DISPLAY_OPTION slotTypeDisplay = NONE;

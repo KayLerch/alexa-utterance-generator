@@ -19,7 +19,7 @@ public class UtteranceGenerator {
      * Set the key of a file with utterances you created in the utterances-folder
      * e.g. "booking" for using "/resources/output/utterances/booking.grammar"
      */
-    private final static String GRAMMAR_FILE_KEY_IN_UTTERANCES_FOLDER = "booking";
+    private final static String GRAMMAR_FILE_KEY_IN_UTTERANCES_FOLDER = "booking1";
 
     /**
      * Set true in order to write to file. Set to false to just print out to console
@@ -39,7 +39,7 @@ public class UtteranceGenerator {
     /**
      * Set true to validate output (e.g. throws exception on duplicate utterances in two or more intents)
      */
-    private final static Boolean VALIDATE_OUTPUT = true;
+    private final static Boolean VALIDATE_OUTPUT = false;
 
     /**
      * Run in your Java IDE
@@ -55,8 +55,8 @@ public class UtteranceGenerator {
         final Formatter formatter = PRINT_AS_SCHEMA ?
                 JsonFormatter.create(outputWriter).build() :
                 PlainFormatter.create(outputWriter)
-                        .displayIntent(PlainFormatter.EditorialFormatterBuilder.INTENT_DISPLAY_OPTION.ONCE_ON_TOP)
-                        .displaySlotType(PlainFormatter.EditorialFormatterBuilder.SLOT_TYPE_DISPLAY_OPTION.ID_AND_VALUES)
+                        .displayIntent(PlainFormatter.INTENT_DISPLAY_OPTION.ONCE_ON_TOP)
+                        .displaySlotType(PlainFormatter.SLOT_TYPE_DISPLAY_OPTION.ID_AND_VALUES)
                         .displayInvocationName(true)
                         .build();
 

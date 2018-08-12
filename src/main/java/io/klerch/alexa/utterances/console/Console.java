@@ -61,8 +61,8 @@ public class Console implements Runnable {
         final Formatter formatter = !plainFormat ?
                 JsonFormatter.create(outputWriter).build() :
                 PlainFormatter.create(outputWriter)
-                        .displayIntent(PlainFormatter.EditorialFormatterBuilder.INTENT_DISPLAY_OPTION.ONCE_ON_TOP)
-                        .displaySlotType(PlainFormatter.EditorialFormatterBuilder.SLOT_TYPE_DISPLAY_OPTION.ID_AND_VALUES)
+                        .displayIntent(PlainFormatter.INTENT_DISPLAY_OPTION.ONCE_ON_TOP)
+                        .displaySlotType(PlainFormatter.SLOT_TYPE_DISPLAY_OPTION.ID_AND_VALUES)
                         .displayInvocationName(true)
                         .build();
 
