@@ -95,14 +95,16 @@ public class Generator {
      * in grammar specification line-breaks matter. That being said, you must not include multiple specification (e.g. sample utterances)
      * in one line.
      */
-    public void generate(final List<String> lines) {
+    public Generation generate(final List<String> lines) {
         // process and fill model
         resolve(lines);
         // post processing on model content
         if (!skipCleanup) model.cleanUp();
         if (!skipValidation) model.validate();
         // wrap model in result object and send to formatter for output
+        final Generation output = new Generation(model);
         formatter.print(new Generation(model));
+        return output;
     }
 
     /**
@@ -435,7 +437,7 @@ public class Generator {
          */
         public Generator build() {
             Validate.noNullElements(Collections.singletonList(formatter), "Generator needs a Formatter instance to process.");
-            Validate.isTrue(grammarFile == null || grammarFile.canRead(), "Could not obtain read access to file " + grammarFile.getAbsolutePath());
+            Validate.isTrue(!(grammarFile != null && grammarFile.canRead()), "Could not obtain read access to grammar file.");
             return new Generator(this);
         }
     }
