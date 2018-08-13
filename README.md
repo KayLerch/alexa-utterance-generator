@@ -30,6 +30,7 @@ The resulting JSON file can be used to **upload the model to your Alexa skill ri
     * [Slot types](#321)
     * [Synonyms and Slot Ids](#322)
   * [Comments](#33)
+* [Feature roadmap and intake](#4)
 
 <a name="0"></a>
 ## **0. What's the point?**
@@ -531,11 +532,10 @@ BookHotelIntent: {|please} {bookingAction} me a {{item:bookingItem}} in {{city:A
 ```
 
 <a name="4"></a>
-### 4. Feature roadmap
+## 4. Feature roadmap and intake
 
 The next big thing I am currently working on is also supporting dialog intents and slots in the grammar specification. It is currently the missing piece of building complete interaction models.
 I am also busy setting up a web interface so you can type grammar specification and review, save and share the output in your web browser. Stay tuned!
 
 I am always happy to receive pull requests or any kind of constructive feedback and feature requests.
-You can reach me on
-[![Join the chat at https://gitter.im/alexa-utterance-generator/Lobby](https://badges.gitter.im/alexa-utterance-generator/Lobby.svg)](https://gitter.im/alexa-utterance-generator/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+You can [![Join the chat at https://gitter.im/alexa-utterance-generator/Lobby](https://badges.gitter.im/alexa-utterance-generator/Lobby.svg)](https://gitter.im/alexa-utterance-generator/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with me and the community.
