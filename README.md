@@ -529,3 +529,13 @@ Invocation: travel booking    // comment can also be inline
 BookHotelIntent: {|please} {bookingAction} me a {{item:bookingItem}} {at|on|for} {{date:AMAZON.DATE}}
 BookHotelIntent: {|please} {bookingAction} me a {{item:bookingItem}} in {{city:AMAZON.US_CITY}}
 ```
+
+<a name="4"></a>
+### 4. Feature roadmap
+
+The next big thing I am currently working on is also supporting dialog intents and slots in the grammar specification. It is currently the missing piece of building complete interaction models.
+I am also busy setting up a web interface so you can type grammar specification and review, save and share the output in your web browser. Stay tuned!
+
+I am always happy to receive pull requests or any kind of constructive feedback and feature requests.
+You can reach me on
+[![Join the chat at https://gitter.im/alexa-utterance-generator/Lobby](https://badges.gitter.im/alexa-utterance-generator/Lobby.svg)](https://gitter.im/alexa-utterance-generator/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
