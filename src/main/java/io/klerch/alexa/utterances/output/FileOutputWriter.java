@@ -68,9 +68,8 @@ public class FileOutputWriter extends ConsoleOutputWriter {
             this.outputWriter.close();
             this.outputStream.close();
 
-            System.out.println("--------------");
             System.out.println("Schema saved to " + destinationFile.getAbsolutePath());
-
+            System.out.println("----------------------");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

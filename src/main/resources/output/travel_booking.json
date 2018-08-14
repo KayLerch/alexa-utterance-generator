@@ -311,12 +311,6 @@
                 "synonyms" : [
                   "big apple"
                 ]
-              },
-              "slotName" : {
-                "value" : "new york",
-                "synonyms" : [
-                  "big apple"
-                ]
               }
             }
           ]
@@ -333,22 +327,11 @@
                   "taxi",
                   "cab"
                 ]
-              },
-              "slotName" : {
-                "value" : "car",
-                "synonyms" : [
-                  "ride",
-                  "taxi",
-                  "cab"
-                ]
               }
             },
             {
               "id" : "bike01",
               "name" : {
-                "value" : "bike"
-              },
-              "slotName" : {
                 "value" : "bike"
               }
             },
@@ -359,33 +342,17 @@
                 "synonyms" : [
                   "room"
                 ]
-              },
-              "slotName" : {
-                "value" : "hotel",
-                "synonyms" : [
-                  "room"
-                ]
               }
             },
             {
               "id" : "cinema",
               "name" : {
                 "value" : "cinema"
-              },
-              "slotName" : {
-                "value" : "cinema"
               }
             },
             {
               "id" : "table",
               "name" : {
-                "value" : "table",
-                "synonyms" : [
-                  "restaurant",
-                  "dinner"
-                ]
-              },
-              "slotName" : {
                 "value" : "table",
                 "synonyms" : [
                   "restaurant",

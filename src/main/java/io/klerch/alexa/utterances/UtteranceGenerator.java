@@ -19,7 +19,7 @@ public class UtteranceGenerator {
      * Set the key of a file with utterances you created in the utterances-folder
      * e.g. "booking" for using "/resources/output/utterances/booking.grammar"
      */
-    private final static String GRAMMAR_FILE_KEY_IN_UTTERANCES_FOLDER = "booking1";
+    private final static String GRAMMAR_FILE_KEY_IN_UTTERANCES_FOLDER = "booking";
 
     /**
      * Set true in order to write to file. Set to false to just print out to console

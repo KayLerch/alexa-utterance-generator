@@ -154,6 +154,7 @@ public class SlotType {
          * Get slot name object
          * @return slot name object
          */
+        @JsonIgnore
         public SlotName getSlotName() {
             return name;
         }

@@ -437,7 +437,7 @@ public class Generator {
          */
         public Generator build() {
             Validate.noNullElements(Collections.singletonList(formatter), "Generator needs a Formatter instance to process.");
-            Validate.isTrue(!(grammarFile != null && grammarFile.canRead()), "Could not obtain read access to grammar file.");
+            Validate.isTrue(grammarFile == null || grammarFile.canRead(), "Could not obtain read access to grammar file.");
             return new Generator(this);
         }
     }

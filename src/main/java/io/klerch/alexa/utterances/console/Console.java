@@ -80,11 +80,10 @@ public class Console implements Runnable {
             System.out.println("Start writing down grammar specification line by line. Type 'generate!' to generate the schema.");
             System.out.println("----------------------");
             final List<String> lines = new ArrayList<>();
-            Integer lineNumber = 1;
             do {
-                System.out.print(String.format("%02d:> ", lineNumber++));
+                System.out.print(String.format("%02d:> ", lines.size()+1));
                 lines.add(System.console().readLine());
-            } while (!StringUtils.equalsIgnoreCase("generate!", lines.get(lines.size() - 1)));
+            } while (!StringUtils.equalsIgnoreCase("generate!", lines.get(lines.size()-1)));
 
             final Generation generation = Generator.create()
                     .withFormatter(formatter)
