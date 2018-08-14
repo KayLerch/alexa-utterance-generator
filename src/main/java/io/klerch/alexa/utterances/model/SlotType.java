@@ -118,7 +118,7 @@ public class SlotType {
          * @param value slot value
          */
         public SlotValue(final String value) {
-            this.id = value;
+            this.id = value.replace(" ", "_");
             this.name = new SlotName(value);
         }
 
@@ -128,7 +128,7 @@ public class SlotType {
          * @param value slot value
          */
         public SlotValue(final String id, final String value) {
-            this.id = id;
+            this.id = id.replace(" ", "_");
             this.name = new SlotName(id, value);
         }
 
@@ -138,7 +138,7 @@ public class SlotType {
          * @param values group of values (includes synonyms)
          */
         public SlotValue(final String id, final List<String> values) {
-            this.id = id;
+            this.id = id.replace(" ", "_");
             this.name = new SlotName(id, values);
         }
 
