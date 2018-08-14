@@ -162,9 +162,9 @@ __-d, --dry-run__ will just print the output to the console rather than writing 
 
 __-p, --plain__ won't print the output as a JSON skill schema but rather chooses an easy to read format for validating the generated samples.
 
-__-v, --values__ followed by a PATH to the values files location. If not set the values files will be looked up in the folder of the references *.grammar file.
+__-v, --values__ followed by a PATH to the values files location. If not set the values files will be looked up in the folder of the referenced *.grammar file.
 
-__-r, --repl__ enters the _[REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop)_ inline mode. You can now enter grammar specification line by line in your console. Complete your input by typing _generate_ (see also below)
+__-r, --repl__ enters the _[REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop)_ inline mode. You can now enter grammar specification line by line in your console. Complete your input by typing _generate!_ (see also below)
 
 Start with _java -jar alexa-generate.jar booking.grammar_ that will pick up the referenced grammar file and it generates and stores the resulting
 interaction schema as a JSON file in the same folder as the grammar file. Without even giving this command a path to values-files the generator
