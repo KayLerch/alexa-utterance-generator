@@ -179,7 +179,7 @@ your command and you will enter REPL mode - which stands for _[read-eval-print l
 It lets you put in grammar specification line by line from your command. Complete by typing _generate!_ (with exclamation mark!)
 and you will be given the resulting output in the console. As this mode will only take input from console it will ignore
 any *.grammar file references. However, you can still use _-p, --plain_ and _-v, --values_ so you can make use
-of your existing values definitions inside *.values files in your inline grammar specification. There is no need to explicitly set _-d, --dry-mode_
+of your existing values definitions inside *.values files in your inline grammar specification. There is no need to explicitly set _-d, --dry-run_
 as in REPL mode it automatically prints output to the console anyway. It will also let you save the output to file after reviewing the output in the console.
 
 **Organize your projects**
@@ -209,7 +209,7 @@ Navigate to your alexa-skills folder and run
 java -jar alexa-generate.jar booking-skill/models/en-US.grammar booking-skill/models/en-US.json -v booking-skill/models/slots
 ```
 
-The folder structure equals to what the Alexa Skills Kit SDKs set up for you. After storing the generated model in the _models_ folder
+The folder structure equals to what the _[ASK CLI](https://developer.amazon.com/docs/smapi/ask-cli-command-reference.html)_ set up for you. After storing the generated model in the _models_ folder
 you can use _[ASK CLI](https://developer.amazon.com/docs/smapi/ask-cli-command-reference.html)_ to deploy your Alexa skills with an updated model right away.
 
 <a name="22"></a>
@@ -248,7 +248,7 @@ If you´d like to host this project as an AWS lambda function, no problem. Use _
 hand in grammar specification as an array of strings (JSON field in the request should be _lines_.
 
 1) Create a new Lambda function in AWS developer console (Runtime: Java8)
-2) Upload [download the JAR file](/bin/alexa-generate.jar) and set the handler to _io.klerch.alexa.utterances.lambda.Handler_. Increase timeout setting.
+2) Upload [the JAR file](/bin/alexa-generate.jar) and set the handler to _io.klerch.alexa.utterances.lambda.Handler_. Increase timeout setting as needed.
 3) Call this Lambda function by giving it your grammar specification line by line as a JSON payload. Try it out by creating a test event in AWS console. as follows
 
 ```json
@@ -274,7 +274,10 @@ to collaborate on it easily.
 <a name="31"></a>
 ### **3.1 .grammar syntax for sample utterance definitions**
 
-All your sample utterances will be defined in one text files with file ending _*.grammar_ which needs to be stored in the [/src/main/resources/utterances/](/src/main/resources/utterances/) folder in this project. The format of these files is very easy to read also for non-techies like Designers who likely own user experience in your project. You are basically defining all intents for your Alexa skill (including the[AMAZON-builtin intents](https://developer.amazon.com/de/docs/custom-skills/standard-built-in-intents.html)) followed by a colon and assigned sample utterances in (optionally) grammar style. You only need to reference the intent name once as all following lines up to the next intent definition are assigned to that last defined intent.
+All your sample utterances will be defined in one text files with file ending _*.grammar_ The format of these files is very easy to read also for non-techies like Designers who likely 
+own user experience in your project. You are basically defining all intents for your Alexa skill (including the[AMAZON-builtin intents](https://developer.amazon.com/de/docs/custom-skills/standard-built-in-intents.html)) followed 
+by a colon and assigned sample utterances in (optionally) grammar style. You only need to reference the intent name once as all following lines up to the next intent definition are assigned 
+to that last defined intent.
 
 ```xml
 AMAZON.StopIntent:
@@ -285,12 +288,14 @@ tell me the weather
 RainForecastIntent: will {it|there be} rain {|today}
 ```
 
-From above example you can see that builtin intents do not require a sample utterance as they Amazon covered that part. However, you can still extend with your own samples. _WeatherForecastIntent_ got two sample utterances not using any grammar whereas _RainForecastIntent_ got one grammar-style sample utterance resulting in 2 (it, there be) * 2 (blank, today) = 4 permutations.
+From above example you can see that builtin intents do not require a sample utterance as Amazon covered that part. However, you can still extend with your own samples. _WeatherForecastIntent_ 
+got two sample utterances not using any grammar whereas _RainForecastIntent_ got one grammar-style sample utterance resulting in 2 (it, there be) * 2 (blank, today) = 4 permutations.
 
 <a name="311"></a>
 ### 3.1.1 Invocation name
 
-Optionally, you can set the invocation name for your Alexa skill in the grammar file as well. It is part of the generated interaction schema and is required unless you give it as constructor value to the _SMAPIFormatter_ in code (see below). Defining the invocation is easy and works the same as with intents. _Invocation_ is a reserved word in grammar files and is not processed as an intent definition.
+You will set the invocation name for your Alexa skill in the grammar file as well. It is part of the generated interaction schema and is required - otherwise the default invocation name "my skill" will be used. 
+Defining the invocation is easy and works the same as with intents. _Invocation_ is a reserved word in grammar files and is not processed as an intent definition.
 
 ```xml
 Invocation: weather info
@@ -300,7 +305,9 @@ RainForecastIntent: will {it|there be} rain {|today}
 <a name="312"></a>
 ### 3.1.2 Alternate phrasing (inline)
 
-We´ve seen this already in above examples and it´s one of the biggest strengths of grammar definition. Inline you can define different wording for one and the same thing, surrounded by **single curly brackets** and **separated by pipes (|) symbols**. A trailing or leading pipe within the curly brackets also adds a blank value as an option.
+We´ve seen this already in above examples and it´s one of the biggest strengths of grammar definition. Inline you can define different wording for one and the same thing, 
+surrounded by **single curly brackets** and **separated by pipes (|) symbols**. A trailing or leading pipe within the curly brackets also adds a blank value as an option.
+Optionally, you can also use commata or semicolons to separate individual phrases inside the curly brackets.
 
 ```xml
 RainForecastIntent: will {it|there be} rain {|today}
@@ -311,32 +318,58 @@ This results in _"will it rain"_, _"will there be rain"_, _"will it rain today"_
 <a name="313"></a>
 ### 3.1.3 Alternate phrasing by reference
 
-If you got very long enumerations of alternate phrasings (like a long list of synonym verbs) and those repeat in many lines you may not want to have it inline in your grammar utterances. Therefore, you can store these values in a .values file, store it in the [/src/main/resources/slots/](/src/main/resources/slots/) folder and refer to it by its file key within curly brackets. Assume you have a file [bookingAction.values](/src/main/resources/slots/bookingAction.values) that contains three lines with _"book"_, _"get"_ and _"order"_ you can now do the following:
+If you got very long enumerations of alternate phrasings (like a long list of synonym verbs) and those repeat in many lines you may not want to have it inline in your grammar utterances. 
+Therefore, you can separately define these phrases down below or store these values in a .values file and refer to it by its file key within curly brackets. 
+Assume you have a file [bookingAction.values](/src/main/resources/slots/bookingAction.values) that contains three lines with _"book"_, _"get"_ and _"order"_ you can now do the following:
 
 ```xml
 BookHotelIntent: please {bookingAction} me a room
 ```
 
-The generator will resolve this placeholder whenever it sees a file in the slots folder having the same name (e.g. _bookingAction.values_) as the placeholder reference (e.g. _bookingAction_). The above example results in _"please book me a room"_, _"please get me a room"_, _"please order me a room"_.
+The generator will resolve this placeholder whenever it sees a file in the slots folder having the same name (e.g. _bookingAction.values_) as the placeholder reference (e.g. _bookingAction_). 
+The above example results in _"please book me a room"_, _"please get me a room"_, _"please order me a room"_.
+
+The same also works within your grammar file if you do the following. In this case an existing _bookingAction.values_ file will be ignored as generator prioritizes in-grammar specification.
+
+```xml
+BookHotelIntent: please {bookingAction} me a room
+{bookingAction}: get, book, order
+```
 
 <a name="314"></a>
 ### 3.1.4 Slots
 
-If you are familiar with slots in Alexa skills you know there is a requirement to leave the placeholder within a sample utterance in order to extract certain information in your skill to process it. In order to prevend this generator from resolving the placeholder you need to surround it by **double curly brackets**.
+If you are familiar with slots in Alexa skills you know there is a requirement to leave the placeholder within a sample utterance in order to extract certain information in your skill 
+to process it. In order to prevend this generator from resolving the placeholder you need to surround it by **double curly brackets**.
 
 ```xml
 BookHotelIntent: please {bookingAction} me a {{bookingItem}}
 ```
 
-This still requires a _*.values_ file called _bookingItem.values_ in the _slots_ folder but now the generator will leave it in the resulting sample utterances as a placeholder (slot). The result from above example now is: _"please book me a {bookingItem}"_, _"please get me a {bookingItem}"_, _"please order me a {bookingItem}"_. At the same time the generator will create a slot type called _bookingItem_ in your schema and adds all the values it found in the _bookingItem.values_ file.
+This still requires a _*.values_ file called _bookingItem.values_ or a placeholder value specification (_{bookingItem}:_) in the grammar file (similar to what you see in above example) 
+Now the generator will leave the placeholder as a slot in the resulting sample utterances. The result from above example now is: _"please book me a {bookingItem}"_, 
+_"please get me a {bookingItem}"_, _"please order me a {bookingItem}"_. At the same time the generator will create a slot type called _bookingItem_ in your schema and adds all the values 
+it found in the _bookingItem.values_ file or below the _{bookingItem}:_ placeholder specification within your grammar file.
+
+```xml
+BookHotelIntent: please {bookingAction} me a {{bookingItem}}
+{bookingItem}: 
+hotel, room   // multiple values in one line are treated as synonyms to the value in the 1st position
+car, taxi, ride
+flight
+...
+```
 
 <a name="315"></a>
 ### 3.1.5 Builtin Slots
 
-The same works with AMAZON-builtin slot types with one exception: the generator will not create a custom slot type for it in your schema as this is not required in Alexa skills. The generator will slightly rename the slot name as dots are not allowed in slot names. Please note: you can still extend builtin slot types with your own values by creating and storing a file in the _slots_ folders which is named as the builtin slot type (e.g. _[AMAZON.US_CITY.values](/src/main/resources/slots/AMAZON.US_CITY.values)_).
+The same works with AMAZON-builtin slot types with one exception: the generator will not create a custom slot type for it in your schema as this is not required in Alexa skills. 
+The generator will slightly rename the slot name as dots are not allowed in slot names. Please note: you can still extend builtin slot types with your own values by creating a *.values file
+ (e.g. _[AMAZON.US_CITY.values](/src/main/resources/slots/AMAZON.US_CITY.values)_) or provide an in-grammar value specification like _{AMAZON.US_CITY}: new york, big apple_.
 
 ```xml
 BookHotelIntent: please {bookingAction} me a {{bookingItem}} in {{AMAZON.US_CITY}}
+{AMAZON.US_CITY}: new york, big apple
 ```
 
 The result from above example now is: _"please book me a {bookingItem} in {AMAZON_US_CITY}"_, _"please get me a {bookingItem} in {AMAZON_US_CITY}"_, _"please order me a {bookingItem} in {AMAZON_US_CITY}"_.
@@ -348,6 +381,7 @@ If you don't want to have the file key be your slot name in the sample utterance
 
 ```xml
 BookHotelIntent: please {bookingAction} me a {{item:bookingItem}} in {{city:AMAZON.US_CITY}}
+{AMAZON.US_CITY}: new york, big apple
 ```
 
 results in _"please book me a {item} in {city}"_, _"please get me a {item} in {city}"_, _"please order me a {item} in {city}"_.
@@ -372,14 +406,16 @@ In case you have more than one occurance of one and the same slot type reference
 BookHotelIntent: please {bookingAction} me a {{|item:bookingItem}} in {{city:AMAZON.US_CITY|city:AMAZON.EUROPE_CITY}}
 ```
 
-In this example _US_CITY_ and _EU_CITY_ got the same slot name _city_. The generator will leave the first occurance as is (_city_) while renaming the second occurance for _EU_CITY_ to _cityA_.
+In this example _US_CITY_ and _EU_CITY_ got the same slot name _city_. The generator will leave the first occurance as is (_city_) while renaming the second occurrence for _EU_CITY_ to _cityA_.
 
 This results in things like _"please book me a {item} in {city}"_, _"please get me a {item} in {cityA}"_.
 
 <a name="319"></a>
 ### 3.1.9 Duplicate sample utterances
 
-With grammar definitions you will very likely create overlaps and duplicate sample utterances. The generator will take care of it and removes duplicate sample utterances within one and the same intent. Just in case you got duplicate overlaps spanning over different intents the generator will throw an error. The tool cannot decide on your behalf which one is to remove and you need to resolve yourself.
+With grammar definitions you will very likely create overlaps and duplicate sample utterances. The generator will take care of it and removes duplicate sample utterances within one and the 
+same intent. Just in case you got duplicate overlaps spanning over different intents the generator will throw an error. The tool cannot decide on your behalf which one is to remove and you 
+need to resolve yourself.
 
 <a name="32"></a>
 ### **3.2 Defining value collections**
